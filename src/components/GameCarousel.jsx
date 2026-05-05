@@ -25,7 +25,8 @@ function GameCarousel({ title, games }) {
       }
     });
 
-    observer.observe(containerRef.current, widthRef.current);
+    observer.observe(containerRef.current);
+    observer.observe(widthRef.current)
     return () => observer.disconnect();
   }, []);
   function prevChange() {

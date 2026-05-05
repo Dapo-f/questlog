@@ -81,34 +81,32 @@ function DiscoverPage() {
           </div>
         </div>
         <div className="platform-row flex gap-3 mt-12 flex-wrap">
-          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1">
+          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1" onClick={() => navigate("/browse?platform=4")}>
             <div className="platform-icon text-[28px]">🖥️</div>
             <div className="platform-nam text-[13px] font-semibold text-texte">PC</div>
             <div className="platform-count text-[11px] text-muted">280,000+ games</div>
           </div>
-          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1">
+          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1" onClick={() => navigate("/browse?platform=187")}>
             <div className="platform-icon text-[28px]">🎮</div>
             <div className="platform-name text-[13px] font-semibold text-text">PlayStation 5</div>
             <div className="platform-cou text-[11px] text-muted">4,200+ games</div>
           </div>
-          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1">
+          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1" onClick={() => navigate("/browse?platform=186")}>
             <div className="platform-icon text-[28px]">🟩</div>
             <div className="platform-name text-[13px] font-semibold text-text">Xbox Series</div>
             <div className="platform-cou text-[11px] text-muted">3,800+ games</div>
           </div>
-          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1">
+          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1" onClick={() => navigate("/browse?platform=7")}>
             <div className="platform-icon text-[28px]">🔴</div>
             <div className="platform-name text-[13px] font-semibold text-text">Nintendo Switch</div>
             <div className="platform-cou text-[11px] text-muted">6,500+ games</div>
           </div>
-          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1">
+          <div className="platform-card flex-1 min-w-32.5 bg-surface border border-border rounded-xl py-5 px-4 flex flex-col items-center gap-2 cursor-pointer transition duration-200 ease-in-out hover:border-purple hover:bg-[rgba(124,58,237,0.07)] hover:-translate-y-1" onClick={() => navigate("/browse?platform=21")}>
             <div className="platform-icon text-[28px]">📱</div>
             <div className="platform-name text-[13px] font-semibold text-text">Mobile</div>
             <div className="platform-count text-[11px] text-muted">500,000+ games</div>
           </div>
         </div>
-      </div>
-      <div className="pt-4 px-12 py-10">
         <GameCarousel title="Trending" games={trending} />
         <GameCarousel title="Top Rated" games={topRated} />
         <GameCarousel title="New Releases" games={newReleases} />

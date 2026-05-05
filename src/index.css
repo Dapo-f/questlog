@@ -9,6 +9,7 @@
   --color-purple-mid: #9d5ff0;
   --color-purple-bright: #c084fc;
   --color-muted: #8884a8;
+  --color-text: #F0EEF8;
 
   
   --gradient-line: linear-gradient(
@@ -69,7 +70,7 @@ body {
   color: #f0eef8;
   font-family: "Outfit", sans-serif;
   padding-top: 64px;
-   overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .scrollbar-hide {
@@ -78,4 +79,15 @@ body {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #2A2A40;
+  border-radius: 2px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
 }
