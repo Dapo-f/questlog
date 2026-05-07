@@ -47,4 +47,35 @@ async function fetchSimilarGames(id) {
     }
 }
 
-export { fetchGames, fetchGameDetail, fetchGameTrailers, fetchSimilarGames }
+async function fetchGameScreenshots(id) {
+  try {
+    const response = await axios.get(`${BASE_URL}/games/${id}/screenshots`, {
+      params: { key: API_KEY }
+    })
+    return response.data
+  } catch (error) {
+    console.error("Error fetching screenshots:", error)
+    throw error
+  }
+}
+
+export async function fetchYouTubeTrailer(gameName) {
+  try {
+    const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        key: import.meta.env.VITE_YOUTUBE_API_KEY,
+        q: `${gameName} official trailer`,
+        part: 'snippet',
+        type: 'video',
+        maxResults: 1,
+      }
+    })
+    const video = response.data.items[0]
+    return video ? video.id.videoId : null
+  } catch (error) {
+    console.error("YouTube fetch error:", error)
+    return null
+  }
+}
+
+export { fetchGames, fetchGameDetail, fetchGameTrailers, fetchSimilarGames, fetchGameScreenshots }
