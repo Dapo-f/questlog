@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../context/LibraryContext";
 
-function GameBanner({ game }) {
+function GameBanner({ game, onWatchTrailer }) {
   const navigate = useNavigate();
   const { name, id, background_image, genres, platforms, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
@@ -42,7 +42,7 @@ function GameBanner({ game }) {
         <div className="buttons flex gap-3">
           <button
             className="bg-purple hover:bg-purple-mid text-white font-bold px-6 py-2.5 rounded-xl transition-colors"
-            onClick={() => navigate(`/game/${id}`)}
+            onClick={onWatchTrailer}
           >
             🎬 Watch Trailer
           </button>

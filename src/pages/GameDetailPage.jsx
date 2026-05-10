@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   fetchGameDetail,
   fetchGameTrailers,
@@ -18,6 +18,7 @@ function GameDetailPage() {
   const [youtubeId, setYoutubeId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
+  const trailerRef = useRef(null)
   const { id } = useParams();
   const storeIcons = {
     Steam: "🎮",
@@ -83,7 +84,7 @@ function GameDetailPage() {
   };
   return (
     <div>
-      <GameBanner game={game} />
+      <GameBanner game={game} onWatchTrailer={() => trailerRef.current?.scrollIntoView({ behavior: 'smooth' })}/>
       <div className="flex flex-col md:flex-row gap-8 px-4 md:px-12 py-6 md:py-10">
         {/* MAIN COLUMN */}
         <div className="flex-1 min-w-0">
@@ -117,7 +118,7 @@ function GameDetailPage() {
               {expanded ? "Show less ↑" : "Read more ↓"}
             </button>
           </section>
-          <section className="trailers mt-6">
+          <section ref={trailerRef} className="trailers mt-6">
             <div className="title flex items-center gap-2 ">
               <div
                 className="w-1 h-5  rounded-sm"
