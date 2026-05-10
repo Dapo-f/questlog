@@ -84,7 +84,7 @@ function GameDetailPage() {
   };
   return (
     <div>
-      <GameBanner game={game} onWatchTrailer={() => trailerRef.current?.scrollIntoView({ behavior: 'smooth' })}/>
+      <GameBanner game={game} onWatchTrailer={() => {trailerRef.current?.scrollIntoView({ behavior: 'smooth' })}}/>
       <div className="flex flex-col md:flex-row gap-8 px-4 md:px-12 py-6 md:py-10">
         {/* MAIN COLUMN */}
         <div className="flex-1 min-w-0">
