@@ -19,7 +19,7 @@ function GameCollage() {
     );
   }
   return (
-    <div className="absolute inset-0 grid grid-cols-6 grid-rows-4 gap-1 opacity-30 scale-110 -rotate-2 h-full animate-slowDrift">
+    <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 md:grid-cols-6 md:grid-rows-4 gap-1 opacity-30 scale-110 -rotate-2 h-full animate-slowDrift">
       {games.map((game) => (
         <img
           key={game.id}
