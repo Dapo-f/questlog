@@ -8,6 +8,7 @@ import LibraryPage from "./pages/LibraryPage";
 import LibraryProvider from "./context/LibraryContext";
 import Navbar from "./components/Navbar";
 import Toast from "./components/Toast"
+import ScrollToTop from "./components/ScrollTop";
 
 
 function AppContent() {
@@ -31,6 +32,7 @@ function App() {
   return (
     <LibraryProvider>
       <BrowserRouter>
+      <ScrollToTop />
         <AppContent />
       </BrowserRouter>
     </LibraryProvider>
