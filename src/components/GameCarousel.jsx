@@ -98,6 +98,7 @@ function GameCarousel({ title, games }) {
             <GameCard
               key={game.id}
               game={game}
+              className="w-44 md:w-56 shrink-0"
               ref={i === 0 ? widthRef : null}
             />
           ))}

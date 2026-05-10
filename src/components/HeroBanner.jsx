@@ -7,7 +7,7 @@ function HeroBanner({game}) {
     return(
         <div className="relative w-full h-120 bg-cover bg-center flex items-end" style={{backgroundImage: `url(${background_image})`}}>
             <div className="absolute inset-0 bg-linear-to-t from-bg via-bg/60 to-transparent" />
-            <div className="content relative z-10 p-10">
+            <div className="content relative z-10 md:p-10 p-3">
              <h1 className="title font-orbitron font-black text-4xl text-white mb-3">{name}</h1>
              <div className="labels flex items-center gap-3 mb-5 flex-wrap">
                 <span className="bg-green-500 text-white text-xs font-bold px-2.5 py-1 rounded">★ {metacritic}</span>

@@ -63,8 +63,8 @@ function GameDetailPage() {
         Game not found
       </div>
     );
-  const plainText =
-    game.description_raw || game.description?.replace(/<[^>]+>/g, "");
+  // const plainText =
+  //   game.description_raw || game.description?.replace(/<[^>]+>/g, "");
 
   const getStoreUrl = (store) => {
     const domain = store.store.domain;
@@ -84,7 +84,7 @@ function GameDetailPage() {
   return (
     <div>
       <GameBanner game={game} />
-      <div className="flex gap-8 px-12 py-10">
+      <div className="flex flex-col md:flex-row gap-8 px-4 md:px-12 py-6 md:py-10">
         {/* MAIN COLUMN */}
         <div className="flex-1 min-w-0">
           <section className="about">

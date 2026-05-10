@@ -12,10 +12,10 @@ function GameBanner({ game }) {
       style={{ backgroundImage: `url(${background_image})` }}
     >
       <div className="absolute inset-0 bg-linear-to-t from-bg via-bg/60 to-transparent" />
-      <div className="content relative z-10 p-12">
+      <div className="content relative z-10 md:p-12 p-3">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-muted hover:text-white text-sm mb-4 transition-colors"
+          className="flex items-center gap-2 text-white hover:text-white text-sm mb-4 transition-colors"
         >
           ← Back
         </button>

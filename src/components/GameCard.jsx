@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../context/LibraryContext";
 import { forwardRef } from "react"
-const GameCard = forwardRef(function GameCard({ game }, ref) {
+const GameCard = forwardRef(function GameCard({ game, className }, ref) {
   const navigate = useNavigate();
   const { name, id, background_image, genres, metacritic, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
@@ -10,7 +10,7 @@ const GameCard = forwardRef(function GameCard({ game }, ref) {
     new Date(released) > new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
   return (
     <div ref={ref}
-      className="Wrapper group relative w-56 shrink-0 bg-surface2 rounded-xl border border-border cursor-pointer overflow-hidden hover:border-[rgba(192,132,252,0.3)] transition hover:-translate-y-1 duration-300 ease-in-out"
+       className={`group relative bg-surface2 rounded-xl border border-border cursor-pointer overflow-hidden hover:border-[rgba(192,132,252,0.3)] transition hover:-translate-y-1 duration-300 ease-in-out ${className}`}
       onClick={() => navigate(`/game/${id}`)}
     >
       {isNew && (

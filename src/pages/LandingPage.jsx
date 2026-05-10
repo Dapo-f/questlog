@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import GameCollage from "../components/GameCollage";
 import Kratos from "../assets/Kratos.jpg";
 import Neir from "../assets/2B.jpeg";
@@ -6,6 +7,7 @@ import Morgan from "../assets/Morgan.jpeg";
 
 function LandingPage() {
   const navigate = useNavigate();
+  const [showTrailer, setShowTrailer] = useState(false);
   const date = new Date().getFullYear();
   const gradientText = {
     background: "linear-gradient(135deg, #fff 0%, #C084FC 100%)",
@@ -38,7 +40,7 @@ function LandingPage() {
             <div className="hero-badge-dot w-1.5 h-1.5 rounded-full bg-purple-bright animate-pulse"></div>
             Your Ultimate Game Library
           </div>
-          <h1 className="hero-title font-orbitron font-black text-6xl text-white leading-tight mb-4 animate-[fadeUp_0.9s_0.2s_ease_both]">
+          <h1 className="hero-title font-orbitron font-black text-4xl md:text-6xl text-white leading-tight mb-4 animate-[fadeUp_0.9s_0.2s_ease_both]">
             Every Game.
             <br />
             <span
@@ -60,13 +62,41 @@ function LandingPage() {
             >
               ⚔️ &nbsp;Explore Games
             </button>
-            <button className="btn-secondary bg-white/7 hover:bg-white/10 text-white border border-border px-7 py-3.5 rounded-xl transition-colors font-semibold cursor-pointer">
+            <button
+              className="btn-secondary bg-white/7 hover:bg-white/10 text-white border border-border px-7 py-3.5 rounded-xl transition-colors font-semibold cursor-pointer"
+              onClick={() => setShowTrailer(true)}
+            >
               Watch Trailer
             </button>
           </div>
         </div>
       </section>
-      <section className="stats relative py-20 px-12 flex justify-center gap-0 border-y border-y-border bg-surface overflow-hidden">
+      {showTrailer && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-6"
+          onClick={() => setShowTrailer(false)}
+        >
+          <div
+            className="w-full max-w-4xl aspect-video rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/E3Huy2cdih0?autoplay=1"
+              title="Elden Ring Trailer"
+              allowFullScreen
+              allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          </div>
+          <button
+            onClick={() => setShowTrailer(false)}
+            className="absolute top-6 right-6 text-white text-3xl hover:text-purple-bright transition-colors"
+          >
+            ×
+          </button>
+        </div>
+      )}
+      <section className="stats relative py-12 md:py-20 px-6 md:px-12 flex flex-wrap justify-center gap-0 border-y border-border bg-surface overflow-hidden">
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-px"
           style={{
@@ -74,7 +104,7 @@ function LandingPage() {
               "linear-gradient(to right, transparent, #C084FC, transparent)",
           }}
         ></div>
-        <div className="stat-item flex-1 max-w-65 text-center py-0 px-10 border-r border-r-border">
+       <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r border-border">
           <div
             className="stat-number text-fluid-xl font-orbitron font-black mb-2 leading-none"
             style={gradientText}
@@ -85,7 +115,7 @@ function LandingPage() {
             Games in Database
           </div>
         </div>
-        <div className="stat-item flex-1 max-w-65 text-center py-0 px-10 border-r border-r-border">
+       <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r-0 md:border-r border-border">
           <div
             className="stat-number text-fluid-xl font-orbitron font-black mb-2 leading-none"
             style={gradientText}
@@ -96,7 +126,7 @@ function LandingPage() {
             Genres to Explore
           </div>
         </div>
-        <div className="stat-item flex-1 max-w-65 text-center py-0 px-10 border-r border-r-border">
+        <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r border-border">
           <div
             className="stat-number text-fluid-xl font-orbitron font-black mb-2 leading-none"
             style={gradientText}
@@ -107,7 +137,7 @@ function LandingPage() {
             Platforms Covered
           </div>
         </div>
-        <div className="stat-item flex-1 max-w-65 text-center py-0 px-10">
+        <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r border-border last:border-r-0">
           <div
             className="stat-number text-fluid-xl font-orbitron font-black mb-2 leading-none"
             style={gradientText}
@@ -272,7 +302,13 @@ function LandingPage() {
           </p>
         </div>
         <div className="steps grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-0 relative">
-          <div className="absolute top-7 h-px z-0 left-[16%] right-[16%] md:inline-flex hidden" style={{ background: 'linear-gradient(to right, transparent, #C084FC, transparent)' }}></div>
+          <div
+            className="absolute top-7 h-px z-0 left-[16%] right-[16%] md:inline-flex hidden"
+            style={{
+              background:
+                "linear-gradient(to right, transparent, #C084FC, transparent)",
+            }}
+          ></div>
           <div className="step text-center py-0 px-8 relative z-1">
             <div
               className="step-num w-14 h-14 rounded-full flex items-center justify-center font-orbitron text-[18px] font-black text-white mx-auto mb-6"
@@ -345,7 +381,7 @@ function LandingPage() {
             The community loves it
           </h2>
         </div>
-        <div className="testimonials-grid max-w-275 mx-auto grid grid-cols-3 gap-5">
+        <div className="testimonials-grid max-w-275 mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
           <div className="testimonial-card bg-surface2 border border-border rounded-2xl p-7 transition duration-300 hover:border-[rgba(192,132,252,0.25)] hover:-translate-y-1 ease-in-out">
             <div className="t-stars text-purple-bright text-[14px] mb-3.5 tracking-[2px]">
               ★★★★★
@@ -448,7 +484,7 @@ function LandingPage() {
         </button>
       </section>
       <footer className="bg-surface border-t border-border pt-15 px-12 pb-9">
-        <div className="footer-top flex justify-between items-start mb-12 gap-10">
+        <div className="footer-top flex flex-col md:flex-row justify-between items-start mb-12 gap-10">
           <div className="footer-brand">
             <div className="flex items-center gap-2.5 mb-1">
               <svg width="28" height="28" viewBox="0 0 44 44" fill="none">
@@ -486,7 +522,7 @@ function LandingPage() {
               from every genre and platform.
             </p>
           </div>
-          <div className="footer-links flex gap-16 flex-wrap">
+          <div className="footer-links flex flex-wrap gap-10 md:gap-16">
             <div className="footer-col">
               <h4 className="font-orbitron text-[11px] font-black tracking-[0.2em] uppercase text-purple-bright mb-4">
                 Navigate

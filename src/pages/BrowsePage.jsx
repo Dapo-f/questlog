@@ -79,7 +79,7 @@ function BrowsePage() {
   return (
     <>
       <div
-        className="page-header pt-10 px-12 pb-7 border-b border-border"
+        className="page-header pt-10 px-4 md:px-12 pb-7 border-b border-border"
         style={{
           background:
             "linear-gradient(to bottom,rgba(124,58,237,0.05),transparent)",
@@ -96,7 +96,7 @@ function BrowsePage() {
             games found
           </span>
         </div>
-        <div className="flex gap-3 items-center mb-3.5">
+        <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center mb-3.5">
           <input
             className="flex-1 max-w-lg bg-surface border border-border rounded-xl px-4 py-2.5 text-sm text-white placeholder-muted outline-none focus:border-purple transition-colors"
             placeholder="Search games..."
@@ -109,7 +109,7 @@ function BrowsePage() {
           <select
             value={ordering}
             onChange={(e) => setOrdering(e.target.value)}
-            className="sort-select bg-surface border-[1.5px] border-border rounded-[10px] pt-3 pr-9 pb-3 pl-4 text-text font-outfit text-sm font-medium outline-none cursor-pointer appearance-none"
+            className="w-full sm:w-auto sort-select bg-surface border-[1.5px] border-border rounded-[10px] pt-3 pr-9 pb-3 pl-4 text-text font-outfit text-sm font-medium outline-none cursor-pointer appearance-none"
             style={button}
           >
             <option value="-added">Sort: Trending</option>
@@ -153,11 +153,12 @@ function BrowsePage() {
           </div>
         </div>
       </div>
+
       <div className="browse-layout flex">
-        <aside className=" w-64 shrink-0 bg-surface border-r border-border p-5 sticky top-16 h-[calc(100vh-64px)] overflow-y-auto sidebar-scroll">
+        <aside className="hidden md:block w-64 shrink-0 bg-surface border-r border-border p-5 sticky top-16 h-[calc(100vh-64px)] overflow-y-auto sidebar-scroll">
           <div className="filter-section mb-6">
             <div className="filter-label font-orbitron text-xs font-bold tracking-widest uppercase text-muted mb-3 flex justify-between items-center">
-              Genre 
+              Genre
             </div>
             {genres.map((genre) => (
               <div
@@ -179,7 +180,7 @@ function BrowsePage() {
 
           <div className="filter-section mb-6">
             <div className="filter-label font-orbitron text-xs font-bold tracking-widest uppercase text-muted mb-3 flex justify-between items-center">
-              Platform 
+              Platform
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
               {platforms.map((p) => (
@@ -221,9 +222,9 @@ function BrowsePage() {
             />
           </div>
         </aside>
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-4 md:p-8">
           {loading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5 mb-8">
               {[...Array(12)].map((_, i) => (
                 <SkeletonCard key={i} />
               ))}
@@ -238,7 +239,7 @@ function BrowsePage() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5 mb-8">
                 {games.map((game) => (
                   <GameCard key={game.id} game={game} />
                 ))}

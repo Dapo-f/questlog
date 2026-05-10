@@ -33,7 +33,7 @@ function SearchBar() {
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="bg-surface2 border border-border rounded-lg px-4 py-2 text-sm text-white placeholder-muted outline-none w-90 focus:border-purple"
+        className="bg-surface2 border border-border rounded-lg px-4 py-2 text-sm text-white placeholder-muted outline-none flex-1 w-90 focus:border-purple hidden md:block"
         type="text"
         placeholder="Search games..."
         onKeyDown={(e) => {
