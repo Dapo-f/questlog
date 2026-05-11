@@ -4,16 +4,19 @@ import { fetchGames } from "../services/rawgApi";
 import GameCard from "../components/GameCard";
 import SkeletonCard from "../components/SkeletonCard";
 function BrowsePage() {
+  const [searchParams] = useSearchParams();
+
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => searchParams.get("search") || "");
   const [ordering, setOrdering] = useState("-added");
-  const [selectedPlatform, setSelectedPlatform] = useState(null);
+  const [selectedPlatform, setSelectedPlatform] = useState(
+    () => searchParams.get("platform") || null,
+  );
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [yearFrom, setYearFrom] = useState(2000);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const loadGames = async () => {
@@ -32,11 +35,6 @@ function BrowsePage() {
     };
     loadGames();
   }, [ordering, selectedPlatform, selectedGenres, search, page, yearFrom]);
-
-  useEffect(() => {
-    const platformFromUrl = searchParams.get("platform");
-    if (platformFromUrl) setSelectedPlatform(platformFromUrl);
-  }, []);
 
   const button = {
     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238884A8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
