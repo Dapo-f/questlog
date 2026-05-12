@@ -68,7 +68,7 @@ function BrowsePage() {
         : [...prev, genreId],
     );
   }
-  function clearAll() {
+  function clearAll() {    
     setSelectedGenres([]);
     setSelectedPlatform(null);
     setSearch("");
@@ -84,6 +84,7 @@ function BrowsePage() {
             "linear-gradient(to bottom,rgba(124,58,237,0.05),transparent)",
         }}
       >
+        {/* Page Header */}
         <div className="page-header-top flex items-end justify-between flex-wrap gap-5 mb-5">
           <h1 className="page-title font-orbitron text-[30px] font-black text-white">
             Browse <span className="text-purple-bright">Games</span>
@@ -95,6 +96,8 @@ function BrowsePage() {
             games found
           </span>
         </div>
+
+        {/* Search and Sort */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center mb-3.5">
           <input
             className="flex-1 max-w-lg bg-surface border border-border rounded-xl px-4 py-2.5 text-sm text-white placeholder-muted outline-none focus:border-purple transition-colors"
@@ -118,6 +121,7 @@ function BrowsePage() {
           </select>
         </div>
 
+        {/* Active Filters */}
         <div className="active-filters flex gap-2 flex-wrap items-center">
           <div className="active-filters flex gap-2 flex-wrap items-center">
             {(selectedGenres.length > 0 || selectedPlatform || search) && (
@@ -153,6 +157,7 @@ function BrowsePage() {
         </div>
       </div>
 
+      {/* Browse Layout */}
       <div className="browse-layout relative flex items-stretch">
         {/* Filter Backdrop */}
         {showFilters && (
@@ -161,6 +166,8 @@ function BrowsePage() {
             onClick={() => setShowFilters(false)}
           />
         )}
+
+        {/* SideBar */}
         <aside
           className={`${showFilters ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 fixed md:sticky top-16 left-0 bottom-0 z-40 md:z-auto w-72 md:w-64 shrink-0 bg-surface border-r border-border p-5 h-[calc(100vh-64px)] md:h-[calc(100vh-64px)] overflow-y-auto sidebar-scroll transition-transform duration-300 ease-in-out`}
         >
@@ -244,6 +251,7 @@ function BrowsePage() {
           </div>
         </aside>
 
+        {/* Main Grid */}
         <div className="flex-1 p-4 md:p-8">
           {/* filter button */}
           <div className="md:hidden mb-4">
@@ -259,6 +267,8 @@ function BrowsePage() {
               )}
             </button>
           </div>
+
+          {/* Grid Columns */}
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5 mb-8">
               {[...Array(12)].map((_, i) => (
