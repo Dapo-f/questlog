@@ -9,7 +9,8 @@ function BrowsePage() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(() => searchParams.get("search") || "");
-  const [ordering, setOrdering] = useState("-added");
+  const title = searchParams.get("title") || "All Games";
+  const [ordering, setOrdering] = useState(() => searchParams.get("ordering") || "-added");
   const [selectedPlatform, setSelectedPlatform] = useState(
     () => searchParams.get("platform") || null,
   );

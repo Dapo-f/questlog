@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import GameCard from "../components/GameCard";
 import { useEffect, useRef, useState } from "react";
-function GameCarousel({ title, games }) {
+function GameCarousel({ title, games, ordering }) {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
   const [index, setIndex] = useState(0);
@@ -13,6 +13,7 @@ function GameCarousel({ title, games }) {
     if (!widthRef.current || !containerRef.current) return;
 
     const observer = new ResizeObserver(() => {
+      if (!containerRef.current || !widthRef.current) return;
       const cardWidth = widthRef.current.offsetWidth + 18;
       setStepSize(cardWidth);
       const containerWidth = containerRef.current.offsetWidth;
@@ -77,7 +78,7 @@ function GameCarousel({ title, games }) {
           <p
             className="text-purple-bright text-sm hover:underline cursor-pointer"
             onClick={() => {
-              navigate("/browse");
+              navigate(`/browse?title=${title}&ordering=${ordering}`);
             }}
           >
             See all

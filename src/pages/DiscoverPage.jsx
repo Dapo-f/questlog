@@ -107,9 +107,9 @@ function DiscoverPage() {
             <div className="platform-count text-[11px] text-muted">500,000+ games</div>
           </div>
         </div>
-        <GameCarousel title="Trending" games={trending} />
-        <GameCarousel title="Top Rated" games={topRated} />
-        <GameCarousel title="New Releases" games={newReleases} />
+        <GameCarousel title="Trending" games={trending} ordering="-added" />
+        <GameCarousel title="Top Rated" games={topRated} ordering="-metacritic" />
+        <GameCarousel title="New Releases" games={newReleases} ordering="-released" />
       </div>
     </>
   );
