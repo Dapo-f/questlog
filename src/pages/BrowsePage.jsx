@@ -5,7 +5,7 @@ import GameCard from "../components/GameCard";
 import SkeletonCard from "../components/SkeletonCard";
 function BrowsePage() {
   const [searchParams] = useSearchParams();
-
+  const [showFilters, setShowFilters] = useState(false);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(() => searchParams.get("search") || "");
@@ -27,6 +27,7 @@ function BrowsePage() {
         ...(selectedGenres.length > 0 && { genres: selectedGenres.join(",") }),
         ...(search && { search }),
         page,
+        page_size: 12,
         dates: `${yearFrom}-01-01,2025-12-31`,
       });
       setGames(result.results);
@@ -152,8 +153,30 @@ function BrowsePage() {
         </div>
       </div>
 
-      <div className="browse-layout flex">
-        <aside className="hidden md:block w-64 shrink-0 bg-surface border-r border-border p-5 sticky top-16 h-[calc(100vh-64px)] overflow-y-auto sidebar-scroll">
+      <div className="browse-layout relative flex items-stretch">
+        {/* Filter Backdrop */}
+        {showFilters && (
+          <div
+            className="fixed inset-0 bg-black/50 z-30 md:hidden"
+            onClick={() => setShowFilters(false)}
+          />
+        )}
+        <aside
+          className={`${showFilters ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 fixed md:sticky top-16 left-0 bottom-0 z-40 md:z-auto w-72 md:w-64 shrink-0 bg-surface border-r border-border p-5 h-[calc(100vh-64px)] md:h-[calc(100vh-64px)] overflow-y-auto sidebar-scroll transition-transform duration-300 ease-in-out`}
+        >
+          {/* Filter close button */}
+          <div className="md:hidden flex justify-between items-center mb-6">
+            <span className="font-orbitron text-xs font-bold text-muted uppercase tracking-widest">
+              Filters
+            </span>
+            <button
+              onClick={() => setShowFilters(false)}
+              className="text-muted hover:text-white text-2xl leading-none"
+            >
+              ×
+            </button>
+          </div>
+          <div className="sidebar-divider h-0.5 bg-border mt-1 mx-0 mb-6 block md:hidden"></div>
           <div className="filter-section mb-6">
             <div className="filter-label font-orbitron text-xs font-bold tracking-widest uppercase text-muted mb-3 flex justify-between items-center">
               Genre
@@ -220,7 +243,22 @@ function BrowsePage() {
             />
           </div>
         </aside>
+
         <div className="flex-1 p-4 md:p-8">
+          {/* filter button */}
+          <div className="md:hidden mb-4">
+            <button
+              onClick={() => setShowFilters((prev) => !prev)}
+              className="relative flex items-center gap-2 bg-surface border border-border rounded-xl px-4 py-2.5 text-2xl font-semibold text-muted hover:border-purple hover:text-purple-bright transition-colors"
+            >
+               <ion-icon name="filter-outline"></ion-icon>
+              {selectedGenres.length + (selectedPlatform ? 1 : 0) > 0 && (
+                <span className="bg-purple text-white text-xs rounded-full w-5 h-5 flex items-center justify-center absolute right-2 top-2">
+                  {selectedGenres.length + (selectedPlatform ? 1 : 0)}
+                </span>
+              )}
+            </button>
+          </div>
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5 mb-8">
               {[...Array(12)].map((_, i) => (
@@ -254,7 +292,7 @@ function BrowsePage() {
                 <span className="px-4 py-2 text-sm text-muted">
                   Page <strong className="text-white">{page}</strong> of{" "}
                   <strong className="text-white">
-                    {Math.ceil(totalCount / 20)}
+                    {Math.ceil(totalCount / 12)}
                   </strong>
                 </span>
                 <button
