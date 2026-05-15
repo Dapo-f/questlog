@@ -33,7 +33,7 @@ function BrowsePage() {
         ...(search && { search }),
         page,
         page_size: 12,
-        dates: dates,
+        dates,
         metacritic: `${score},100`
       });
       setGames(result.results);
