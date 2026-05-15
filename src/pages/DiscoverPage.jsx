@@ -11,6 +11,8 @@ function DiscoverPage() {
   const [newReleases, setNewReleases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const currentYear = new Date().getFullYear();
+  const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,17 +21,17 @@ function DiscoverPage() {
         fetchGames({
           ordering: "-added",
           platforms: "18,187,1,186,7",
-          metacritic: "70,100",
+          dates: `${currentYear}-01-01,${today}`,
         }),
         fetchGames({
           ordering: "-metacritic",
           platforms: "18,187,1,186,7",
-          metacritic: "70,100",
+          dates: `${currentYear}-01-01,${today}`,
         }),
         fetchGames({
           ordering: "-released",
           platforms: "18,187,1,186,7",
-          metacritic: "70,100",
+          dates: `${currentYear}-01-01,${today}`,
         }),
       ]);
       setTrending(t.results);

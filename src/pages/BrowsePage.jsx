@@ -17,12 +17,12 @@ function BrowsePage() {
     () => searchParams.get("platform") || null,
   );
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [yearFrom, setYearFrom] = useState(2000);
-  const [score, setScore] = useState(70)
+  const [yearFrom, setYearFrom] = useState(2026);
+  const [yearTo, setYearTo] = useState(new Date().getFullYear())
+  const today = new Date().toISOString().split("T")[0];
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
 
-  const dates = `${yearFrom}-01-01,${new Date().getFullYear()}-12-31`;
   useEffect(() => {
     const loadGames = async () => {
       setLoading(true);
@@ -33,15 +33,14 @@ function BrowsePage() {
         ...(search && { search }),
         page,
         page_size: 12,
-        dates,
-        metacritic: `${score},100`
+        dates: `${yearFrom}-01-01,${today}`,
       });
       setGames(result.results);
       setTotalCount(result.count);
       setLoading(false);
     };
     loadGames();
-  }, [ordering, selectedPlatform, selectedGenres, search, page, yearFrom, score]);
+  }, [ordering, selectedPlatform, selectedGenres, search, page, yearFrom]);
 
   const button = {
     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238884A8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
@@ -256,43 +255,16 @@ function BrowsePage() {
                 From: <strong className="text-white">{yearFrom}</strong>
               </span>
               <span className="text-xs text-muted">
-                To: <strong className="text-white">2025</strong>
+                To: <strong className="text-white">{yearTo}</strong>
               </span>
             </div>
             <input
               type="range"
               min="1980"
-              max="2025"
+              max={yearTo}
               value={yearFrom}
               onChange={(e) => {
                 setYearFrom(Number(e.target.value));
-                setPage(1);
-              }}
-              className="w-full accent-purple cursor-pointer"
-            />
-          </div>
-          <div className="sidebar-divider h-0.5 bg-border mt-1 mx-0 mb-6"></div>
-
-          {/* Metacritic */}
-          <div className="filter-section mb-6">
-            <div className="filter-label font-orbitron text-xs font-bold tracking-widest uppercase text-muted mb-3 flex justify-between items-center">
-              Metacritic Score
-            </div>
-            <div className="flex justify-between mb-2">
-              <span className="text-xs text-muted">
-                From: <strong className="text-white">{score}</strong>
-              </span>
-              <span className="text-xs text-muted">
-                To: <strong className="text-white">100</strong>
-              </span>
-            </div>
-            <input
-              type="range"
-              min="20"
-              max="100"
-              value={score}
-              onChange={(e) => {
-                setScore(Number(e.target.value));
                 setPage(1);
               }}
               className="w-full accent-purple cursor-pointer"
