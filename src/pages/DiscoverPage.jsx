@@ -5,7 +5,6 @@ import GameCarousel from "../components/GameCarousel";
 import HeroBanner from "../components/HeroBanner";
 import SkeletonCardCarousel from "../components/SkeletonCardCarousel";
 import SkeletonHeroBanner from "../components/SkeletonHeroBanner";
-import Ps5 from "../assets/playstation.svg";
 function DiscoverPage() {
   const [trending, setTrending] = useState([]);
   const [topRated, setTopRated] = useState([]);

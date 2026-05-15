@@ -8,6 +8,14 @@ import {
   fetchYouTubeTrailer,
 } from "../services/rawgApi";
 import GameBanner from "../components/GameBanner";
+import Andriod from "../assets/Store/andriod.svg"
+import Apple from "../assets/Store/apple.svg"
+import EpicGames from "../assets/Store/epicgames.svg"
+import Gogo from "../assets/Store/gogdotcom.svg"
+import Nintendo from "../assets/Store/nintendo_switch.svg"
+import Playstation from "../assets/Store/playstation.svg"
+import Steam from '../assets/Store/steam.svg'
+import Xbox from "../assets/Store/xbox.svg"
 function GameDetailPage() {
   const navigate = useNavigate();
   const [game, setGame] = useState(null);
@@ -21,14 +29,15 @@ function GameDetailPage() {
   const trailerRef = useRef(null)
   const { id } = useParams();
   const storeIcons = {
-    Steam: "🎮",
-    "PlayStation Store": "🎯",
-    "Xbox Store": "🟩",
-    "Nintendo Store": "🔴",
-    "Epic Games": "⬛",
-    GOG: "🌌",
-    "App Store": "📱",
-    "Google Play": "📱",
+    Steam: Steam,
+    "PlayStation Store": Playstation,
+    "Xbox Store": Xbox,
+    "Xbox 360 Store": Xbox,
+    "Nintendo Store": Nintendo,
+    "Epic Games": EpicGames,
+    GOG: Gogo,
+    "App Store": Apple,
+    "Google Play": Andriod,
   };
 
   useEffect(() => {
@@ -209,7 +218,7 @@ function GameDetailPage() {
                 Where To Buy
               </h2>
             </div>
-            {game.stores?.length > 0 && (
+            {game.stores?.length > 0 ? (
               <div className="flex flex-col gap-3 mt-4">
                 {game.stores?.map((store) => (
                   <a
@@ -219,14 +228,8 @@ function GameDetailPage() {
                     rel="noreferrer"
                     className="flex items-center justify-between bg-surface2 border border-border rounded-xl px-4 py-3 hover:border-purple-bright/30 hover:translate-x-1 transition-all group"
                   >
-                    {/* <img
-                      src={game.stores?.[store]?.store?.name}
-                      alt={game.stores?.[store]?.store?.name}
-                    /> */}
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">
-                        {storeIcons[store.store.name] || "🛒"}
-                      </span>
+                      <img src={storeIcons[store.store.name] || "🛒"} alt={store.store.name} className="w-6 h-6 object-contain" />
                       <div>
                         <p className="text-white text-sm font-semibold group-hover:text-purple-bright transition-colors">
                           {store.store.name}
@@ -240,7 +243,7 @@ function GameDetailPage() {
                   </a>
                 ))}
               </div>
-            )}
+            ) : <p className="text-muted text-sm mt-4">To Be Announced</p>}
           </section>
         </div>
 

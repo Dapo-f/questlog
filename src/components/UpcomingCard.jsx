@@ -5,15 +5,16 @@ function UpcomingCard({ game }) {
   const navigate = useNavigate();
   const { name, id, background_image, genres, metacritic, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
-  const releaseDate = game.released
-    ? new Date(game.released).toLocaleDateString("en-US", {
+  const releaseDate =
+  released && !isNaN(new Date(released))
+    ? new Date(released).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
       })
     : "TBA";
   const daysUntilRelease = Math.ceil(
-    (new Date(game.released) - new Date()) / (1000 * 60 * 60 * 24),
+    (new Date(released) - new Date()) / (1000 * 60 * 60 * 24),
   );
   const isReleasingSoon = daysUntilRelease <= 90 && daysUntilRelease > 0;
   
@@ -36,7 +37,7 @@ function UpcomingCard({ game }) {
       </div>
       <div className="bottom-label px-4 py-3">
         <div className="bottom-content ">
-          <p className="text-white font-semibold text-sm truncate">{name}</p>
+          <p className="text-white font-semibold text-sm truncate mb-2">{name}</p>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs">📅</span>
             <span

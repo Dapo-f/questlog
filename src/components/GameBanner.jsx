@@ -6,6 +6,14 @@ function GameBanner({ game, onWatchTrailer }) {
   const navigate = useNavigate();
   const { name, id, background_image, genres, platforms, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
+  const releaseDate =
+  released && !isNaN(new Date(released))
+    ? new Date(released).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    : "TBA";
   return (
     <div
       className="relative h-125 bg-cover bg-center flex items-end"
@@ -36,7 +44,7 @@ function GameBanner({ game, onWatchTrailer }) {
               .join(" · ")}
           </span>
           <span className="text-xs font-semibold text-white bg-green-500/20 border border-green-500/30 px-2.5 py-1 rounded-full">
-            {game.released?.split("-")[0]}
+            {releaseDate}
           </span>
         </div>
         <div className="buttons flex gap-3">
