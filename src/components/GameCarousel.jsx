@@ -27,7 +27,7 @@ function GameCarousel({ title, games, ordering }) {
     });
 
     observer.observe(containerRef.current);
-    observer.observe(widthRef.current)
+    observer.observe(widthRef.current);
     return () => observer.disconnect();
   }, []);
   function prevChange() {
@@ -78,7 +78,13 @@ function GameCarousel({ title, games, ordering }) {
           <p
             className="text-purple-bright text-sm hover:underline cursor-pointer"
             onClick={() => {
-              navigate(`/browse?title=${title}&ordering=${ordering}`);
+              const params = new URLSearchParams();
+              if (ordering) params.set("ordering", ordering);
+              params.set(
+                "dates",
+                `${new Date().getFullYear()}-01-01,${new Date().toISOString().split("T")[0]}`,
+              );
+              navigate(`/browse?${params.toString()}`);
             }}
           >
             See all

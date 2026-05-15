@@ -17,8 +17,12 @@ function BrowsePage() {
     () => searchParams.get("platform") || null,
   );
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [yearFrom, setYearFrom] = useState(2026);
-  const [yearTo, setYearTo] = useState(new Date().getFullYear())
+  const datesFromUrl = searchParams.get("dates");
+  const [yearFrom, setYearFrom] = useState(() => {
+    if (datesFromUrl) return parseInt(datesFromUrl.split(",")[0].split("-")[0]);
+    return 2000;
+  });
+  const [yearTo, setYearTo] = useState(new Date().getFullYear());
   const today = new Date().toISOString().split("T")[0];
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);

@@ -5,9 +5,7 @@ const GameCard = forwardRef(function GameCard({ game, className }, ref) {
   const navigate = useNavigate();
   const { name, id, background_image, genres, metacritic, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
-  const isNew =
-    released &&
-    new Date(released) > new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
+  const isNew = released && new Date(released) > new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)
   return (
     <div ref={ref}
        className={`group relative bg-surface2 rounded-xl border border-border cursor-pointer overflow-hidden hover:border-[rgba(192,132,252,0.3)] transition hover:-translate-y-1 duration-300 ease-in-out ${className}`}
