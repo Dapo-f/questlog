@@ -105,6 +105,7 @@ function Navbar() {
           </NavLink>
           <NavLink
           to="/upcoming"
+          onClick={() => setMobileMenuOpen(false)}
           className={({ isActive }) =>
             isActive
               ? "text-purple-bright font-semibold"
