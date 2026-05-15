@@ -63,6 +63,16 @@ function Navbar() {
           Browse
         </NavLink>
         <NavLink
+          to="/upcoming"
+          className={({ isActive }) =>
+            isActive
+              ? "text-purple-bright font-semibold"
+              : "text-muted hover:text-white transition-colors"
+          }
+        >
+          Upcoming
+        </NavLink>
+        <NavLink
           to="/library"
           className="bg-purple text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-mid transition-colors"
         >
@@ -93,6 +103,16 @@ function Navbar() {
           >
             Browse
           </NavLink>
+          <NavLink
+          to="/upcoming"
+          className={({ isActive }) =>
+            isActive
+              ? "text-purple-bright font-semibold"
+              : "text-muted hover:text-white transition-colors"
+          }
+        >
+          Upcoming
+        </NavLink>
           <NavLink
             to="/library"
             onClick={() => setMobileMenuOpen(false)}

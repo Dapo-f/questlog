@@ -308,7 +308,7 @@ function BrowsePage() {
                 </span>
                 <button
                   onClick={() => setPage((p) => p + 1)}
-                  disabled={page >= Math.ceil(totalCount / 20)}
+                  disabled={page >= Math.ceil(totalCount / 12)}
                   className="px-4 py-2 rounded-lg bg-surface border border-border text-muted text-sm font-semibold hover:border-purple hover:text-purple-bright transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   Next →

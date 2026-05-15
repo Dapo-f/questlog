@@ -78,4 +78,23 @@ export async function fetchYouTubeTrailer(gameName) {
   }
 }
 
+export async function fetchUpcomingGames(params = {}) {
+  try {
+    const today = new Date().toISOString().split('T')[0]
+    const response = await axios.get(`${BASE_URL}/games`, {
+      params: {
+        key: API_KEY,
+        dates: `${today},2028-12-31`,
+        ordering: 'released',
+        page_size: 20,
+        ...params
+      }
+    })
+    return response.data
+  } catch (error) {
+    console.error("Error fetching upcoming games:", error)
+    throw error
+  }
+}
+
 export { fetchGames, fetchGameDetail, fetchGameTrailers, fetchSimilarGames, fetchGameScreenshots }
