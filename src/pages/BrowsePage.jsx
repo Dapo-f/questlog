@@ -10,7 +10,9 @@ function BrowsePage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(() => searchParams.get("search") || "");
   const title = searchParams.get("title") || "All Games";
-  const [ordering, setOrdering] = useState(() => searchParams.get("ordering") || "-added");
+  const [ordering, setOrdering] = useState(
+    () => searchParams.get("ordering") || "-added",
+  );
   const [selectedPlatform, setSelectedPlatform] = useState(
     () => searchParams.get("platform") || null,
   );
@@ -69,7 +71,7 @@ function BrowsePage() {
         : [...prev, genreId],
     );
   }
-  function clearAll() {    
+  function clearAll() {
     setSelectedGenres([]);
     setSelectedPlatform(null);
     setSearch("");
@@ -100,15 +102,25 @@ function BrowsePage() {
 
         {/* Search and Sort */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center mb-3.5">
-          <input
-            className="flex-1 max-w-lg bg-surface border border-border rounded-xl px-4 py-2.5 text-sm text-white placeholder-muted outline-none focus:border-purple transition-colors"
-            placeholder="Search games..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1); // reset to page 1 on new search
-            }}
-          />
+          <div className="relative flex-1 max-w-lg">
+            <input
+              className="w-full bg-surface border border-border rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-muted outline-none focus:border-purple transition-colors"
+              placeholder="Search games..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+            />
+            {search.length > 0 && (
+              <button
+                className="text-2xl absolute top-1/2 -translate-y-1/2 right-2 text-muted hover:text-purple-bright transition-colors"
+                onClick={() => setSearch("")}
+              >
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
+            )}
+          </div>
           <select
             value={ordering}
             onChange={(e) => setOrdering(e.target.value)}
@@ -260,7 +272,7 @@ function BrowsePage() {
               onClick={() => setShowFilters((prev) => !prev)}
               className="relative flex items-center gap-2 bg-surface border border-border rounded-xl px-4 py-2.5 text-2xl font-semibold text-muted hover:border-purple hover:text-purple-bright transition-colors"
             >
-               <ion-icon name="filter-outline"></ion-icon>
+              <ion-icon name="filter-outline"></ion-icon>
               {selectedGenres.length + (selectedPlatform ? 1 : 0) > 0 && (
                 <span className="bg-purple text-white text-xs rounded-full w-5 h-5 flex items-center justify-center absolute right-2 top-2">
                   {selectedGenres.length + (selectedPlatform ? 1 : 0)}
