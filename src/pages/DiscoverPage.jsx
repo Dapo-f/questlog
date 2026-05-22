@@ -26,7 +26,7 @@ function DiscoverPage() {
         fetchGames({
           ordering: "-metacritic",
           platforms: "18,187,1,186,7",
-          dates: `${currentYear}-01-01,${today}`,
+          metacritic: "70,100",
         }),
         fetchGames({
           ordering: "-released",
@@ -52,9 +52,11 @@ function DiscoverPage() {
     return (
       <div>
         <SkeletonHeroBanner />
+        <div className="px-4 py-6 md:px-12 md:py-10">
         <SkeletonCardCarousel />
         <SkeletonCardCarousel />
         <SkeletonCardCarousel />
+        </div>
       </div>
     );
   }
@@ -70,7 +72,7 @@ function DiscoverPage() {
           />
         ))}
       </div>
-      <div className="pt-4 px-4 md:px-12 py-6 md:py-10">
+      <div className="pt-16 px-4 md:px-12 py-6 md:py-10">
         <div className="section-head flex items-center gap-2">
           <div
             className="w-1 h-5  rounded-sm"

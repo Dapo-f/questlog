@@ -1,8 +1,8 @@
 import React from 'react'
 
-function SkeletonCard() {
+function SkeletonCard({className}) {
   return (
-    <div className="relative w-56 shrink-0 bg-surface2 rounded-xl overflow-hidden">
+    <div className={`relative shrink-0 bg-surface2 rounded-xl overflow-hidden ${className}`}>
       {/* image area */}
       <div className="w-full h-48 bg-border animate-pulse" />
       

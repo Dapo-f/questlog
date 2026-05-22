@@ -23,7 +23,7 @@ function LibraryCard({ game }) {
   return (
     <>
       <div
-        className="Wrapper group relative w-56 shrink-0 bg-surface2 rounded-xl border border-border cursor-pointer overflow-hidden hover:border-[rgba(192,132,252,0.3)] transition hover:-translate-y-1 duration-300 ease-in-out"
+        className="Wrapper group relative shrink-0 bg-surface2 rounded-xl border border-border cursor-pointer overflow-hidden hover:border-[rgba(192,132,252,0.3)] transition hover:-translate-y-1 duration-300 ease-in-out"
         onClick={() => navigate(`/game/${id}`)}
       >
         <span

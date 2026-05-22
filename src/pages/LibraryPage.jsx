@@ -88,7 +88,7 @@ function LibraryPage() {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <div className="status-tabs flex gap-0 py-0 px-14 border-b border-border mb-8 overflow-x-auto scrollbar-hide">
+      <div className="status-tabs flex gap-0 py-0 px-4 md:px-14 border-b border-border mb-8 overflow-x-auto scrollbar-hide">
         {tabs.map(({ key, label, icon }) => (
           <div
             key={key}
@@ -112,7 +112,7 @@ function LibraryPage() {
           </div>
         ))}
       </div>
-      <div className="px-14 pb-14">
+      <div className="px-4 pb-4 md:px-14 md:pb-14">
         {filteredGames.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="text-5xl mb-4">🎮</div>

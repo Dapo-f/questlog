@@ -41,7 +41,7 @@ function GameCarousel({ title, games, ordering }) {
     }
   }
   return (
-    <div className="mt-6">
+    <div className="mt-12">
       <div className="flex justify-between items-center mb-4">
         <div className="title flex items-center gap-2">
           <div
