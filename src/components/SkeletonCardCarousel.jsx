@@ -10,7 +10,7 @@ function SkeletonCardCarousel() {
         <div className="h-3 w-8 md:w-12 bg-border rounded animate-pulse" />
       </div>
       {/* fake cards row */}
-      <div className="flex gap-4 py-3 overflow-x-auto md:overflow-hidden">
+      <div className="flex gap-4 py-3 overflow-x-auto overflow-y-hidden scrollbar-hide md:overflow-hidden">
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <SkeletonCard key={i} className="w-44 md:w-56 shrink-0" />
         ))}
