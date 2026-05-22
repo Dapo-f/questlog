@@ -26,7 +26,7 @@ function DiscoverPage() {
         fetchGames({
           ordering: "-metacritic",
           platforms: "18,187,1,186,7",
-          metacritic: "70,100",
+          dates: `${currentYear}-01-01,${today}`,
         }),
         fetchGames({
           ordering: "-released",
