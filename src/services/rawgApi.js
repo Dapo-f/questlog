@@ -97,4 +97,23 @@ export async function fetchUpcomingGames(params = {}) {
   }
 }
 
+export async function fetchGamingNews(query = "ign, gamespot gaming news", maxResults = 16) {
+  try {
+    const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        key: import.meta.env.VITE_YOUTUBE_API_KEY,
+        q: query,
+        part: 'snippet',
+        type: 'video',
+        order: 'date',
+        maxResults,
+      }
+    })
+    return response.data.items
+  } catch (error) {
+    console.error("Error fetching gaming news:", error)
+    throw error
+  }
+}
+
 export { fetchGames, fetchGameDetail, fetchGameTrailers, fetchSimilarGames, fetchGameScreenshots }

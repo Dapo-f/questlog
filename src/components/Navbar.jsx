@@ -33,7 +33,10 @@ function Navbar() {
               strokeLinecap="round"
             />
           </svg>
-          <span className="logo-text font-orbitron font-bold text-[18px] text-white" onClick={() => setMobileMenuOpen(false)}>
+          <span
+            className="logo-text font-orbitron font-bold text-[18px] text-white"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Quest
             <span className="text-purple-bright">Log</span>
           </span>
@@ -72,6 +75,16 @@ function Navbar() {
         >
           Upcoming
         </NavLink>
+        {/* <NavLink
+          to="/news"
+          className={({ isActive }) =>
+            isActive
+              ? "text-purple-bright font-semibold"
+              : "text-muted hover:text-white transition-colors"
+          }
+        >
+          News
+        </NavLink> */}
         <NavLink
           to="/library"
           className="bg-purple text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-mid transition-colors"
@@ -104,16 +117,27 @@ function Navbar() {
             Browse
           </NavLink>
           <NavLink
-          to="/upcoming"
-          onClick={() => setMobileMenuOpen(false)}
-          className={({ isActive }) =>
-            isActive
-              ? "text-purple-bright font-semibold"
-              : "text-muted hover:text-white transition-colors"
-          }
-        >
-          Upcoming
-        </NavLink>
+            to="/upcoming"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "text-purple-bright font-semibold"
+                : "text-muted hover:text-white transition-colors"
+            }
+          >
+            Upcoming
+          </NavLink>
+          {/* <NavLink
+            to="/news"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "text-purple-bright font-semibold"
+                : "text-muted hover:text-white transition-colors"
+            }
+          >
+            News
+          </NavLink> */}
           <NavLink
             to="/library"
             onClick={() => setMobileMenuOpen(false)}
