@@ -1,11 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { login as loginApi,
-        getCurrentUser, 
-        register as registerApi, 
-        logout as logoutApi,
-        verifyEmail as verifyEmailApi,
-        resendCode as resendCodeApi, 
-    } from "../services/questlogApi";
+import {
+  login as loginApi,
+  getCurrentUser,
+  register as registerApi,
+  logout as logoutApi,
+  verifyEmail as verifyEmailApi,
+  resendCode as resendCodeApi,
+  forgotPassword as forgotPasswordApi,
+  resetPassword as resetPasswordApi,
+} from "../services/questlogApi";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
@@ -43,24 +46,42 @@ function AuthProvider({ children }) {
 
   async function verifyEmail(email, code) {
     try {
-        const data = await verifyEmailApi(email, code);
-        setToken(data.token);
-        localStorage.setItem("questlog-token", data.token);
-        const userData = await getCurrentUser();
-        setUser(userData);
-        localStorage.setItem("questlog-user", JSON.stringify(userData));
+      const data = await verifyEmailApi(email, code);
+      setToken(data.token);
+      localStorage.setItem("questlog-token", data.token);
+      const userData = await getCurrentUser();
+      setUser(userData);
+      localStorage.setItem("questlog-user", JSON.stringify(userData));
     } catch (error) {
-        console.error("Error verifying email:", error);
-        throw error;
+      console.error("Error verifying email:", error);
+      throw error;
     }
   }
 
   async function resendCode(email) {
     try {
-        return await resendCodeApi(email);
+      return await resendCodeApi(email);
     } catch (error) {
-        console.error("Error resending code:", error);
-        throw error;
+      console.error("Error resending code:", error);
+      throw error;
+    }
+  }
+
+  async function forgotPassword(email) {
+    try {
+      return await forgotPasswordApi(email);
+    } catch (error) {
+      console.error("Error forgetting password:", error);
+      throw error;
+    }
+  }
+
+  async function resetPassword(email, token, password, password_confirmation) {
+    try {
+      return await resetPasswordApi(email, token, password, password_confirmation)
+    } catch (error) {
+      console.error("Error resetting password:", error)
+       throw error
     }
   }
 
@@ -80,7 +101,20 @@ function AuthProvider({ children }) {
   const isAuthenticated = !!token;
 
   return (
-    <AuthContext.Provider value={{ token, user, login, register, logout, isAuthenticated, verifyEmail, resendCode }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        user,
+        login,
+        register,
+        logout,
+        isAuthenticated,
+        verifyEmail,
+        resendCode,
+        forgotPassword,
+        resetPassword,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

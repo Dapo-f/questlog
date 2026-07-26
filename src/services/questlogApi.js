@@ -82,4 +82,24 @@ export async function resendCode(email) {
     }
 }
 
+export async function forgotPassword(email) {
+    try {
+        const response = await api.post('/forgot-password', {email})
+        return response.data
+    } catch (error) {
+        console.error("Error forgetting password:", error)
+        throw error
+    }
+}
+
+export async function resetPassword(email, token, password, password_confirmation) {
+   try {
+      const response = await api.post('/reset-password', { email, token, password, password_confirmation })
+      return response.data
+   } catch (error) {
+      console.error("Error resetting password:", error)
+        throw error
+   }
+}
+
 export default api;

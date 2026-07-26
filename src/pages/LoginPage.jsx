@@ -8,11 +8,16 @@ function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { showToast } = useLibrary();
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     identifier: "",
     password: "",
   });
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -154,19 +159,30 @@ function LoginPage() {
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={(e) =>
-                      setFormData({ ...formData, password: e.target.value })
-                    }
-                    placeholder="••••••••"
-                    required
-                    autoComplete="current-password"
-                    className="px-3 py-2.5 text-sm text-text rounded-lg bg-surface2 w-full border border-border outline-none focus:border-purple focus:ring-1 focus:ring-purple transition-colors placeholder:text-muted"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={(e) =>
+                        setFormData({ ...formData, password: e.target.value })
+                      }
+                      placeholder="••••••••"
+                      required
+                      autoComplete="new-password"
+                      className="px-3 py-2.5 text-sm text-text rounded-lg bg-surface2 w-full border border-border outline-none focus:border-purple focus:ring-1 focus:ring-purple transition-colors placeholder:text-muted"
+                    />
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute top-1/2 -translate-y-1/2 right-2 hover:text-purple-bright transition-colors"
+                    >
+                      <ion-icon
+                        name={showPassword ? "eye-outline" : "eye-off-outline"}
+                      ></ion-icon>
+                    </button>
+                  </div>
                   {errors.password && (
                     <p className="text-red-400 text-sm mt-1">
                       {errors.password[0]}
@@ -183,7 +199,12 @@ function LoginPage() {
                 {/* <!-- Utilities: Remember Me & Forgot Password --> */}
                 <div className="flex items-center justify-between">
                   <label className="flex items-center group has-[input:checked]:text-text cursor-pointer">
-                    <input id="rme" name="rme" type="checkbox" className="sr-only" />
+                    <input
+                      id="rme"
+                      name="rme"
+                      type="checkbox"
+                      className="sr-only"
+                    />
                     <span
                       className="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-surface2 group-has-[input:checked]:bg-purple group-has-[input:checked]:border-purple transition-colors"
                       aria-hidden="true"

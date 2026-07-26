@@ -17,6 +17,9 @@ import Navbar from "./components/Navbar";
 import Toast from "./components/Toast";
 import ScrollToTop from "./components/ScrollTop";
 import AuthProvider from "./context/AuthContext";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import CommunityPage from "./pages/CommunityPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function AppContent() {
   const { toast } = useLibrary();
@@ -29,10 +32,13 @@ function AppContent() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage/>} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/discover" element={<DiscoverPage />} />
         <Route path="/browse" element={<BrowsePage />} />
         <Route path="/upcoming" element={<UpcomingPage />} />
+        <Route path="/community" element={<CommunityPage/>} />
+        <Route path="/profile/:username" element={<ProfilePage/>} />
         {/* <Route path="/news" element={<NewsPage />} /> */}
         <Route path="/game/:id" element={<GameDetailsPage />} />
         <Route path="/library" element={<LibraryPage />} />
