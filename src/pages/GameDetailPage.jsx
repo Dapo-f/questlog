@@ -58,12 +58,12 @@ function GameDetailPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      const [g, tr, si, sc, rv] = await Promise.all([
+      const [g, tr, si, sc,] = await Promise.all([
         fetchGameDetail(id),
         fetchGameTrailers(id),
         fetchSimilarGames(id),
         fetchGameScreenshots(id),
-        getGameReviews(id),
+        // getGameReviews(id),
       ]);
       setGame(g);
       setTrailer(tr.results);
@@ -73,7 +73,7 @@ function GameDetailPage() {
       }
       setSimilar(si.results);
       setScreenshots(sc.results);
-      setReviews(rv);
+      // setReviews(rv);
       setLoading(false);
     };
     loadData();
