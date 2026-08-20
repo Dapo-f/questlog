@@ -39,7 +39,11 @@ function LibraryProvider({ children }) {
       })
       .catch((err) => {
         console.error("Error adding game:", err);
-        showToast("Failed to add game");
+        if(!isAuthenticated) {
+          showToast("Please log in to add games to your library");
+        } else {
+          showToast("Failed to add game");
+        }
       });
   }
 

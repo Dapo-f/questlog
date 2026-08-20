@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../context/LibraryContext";
+import { useAuth } from "../context/AuthContext";
 
 function UpcomingCard({ game }) {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const { name, id, background_image, genres, metacritic, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
   const releaseDate =
@@ -77,6 +79,9 @@ function UpcomingCard({ game }) {
           className="absolute top-2 right-2 w-8 h-8 rounded-lg bg-purple hover:bg-purple/80 transition flex items-center justify-center text-sm"
           onClick={(e) => {
             e.stopPropagation();
+            if (!isAuthenticated) {
+              navigate('/login')
+            }
             isInLibrary(id) ? removeGame(id) : addGame(game);
           }}
         >

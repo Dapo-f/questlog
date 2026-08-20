@@ -62,7 +62,7 @@ function GameBanner({ game, onWatchTrailer }) {
               e.stopPropagation();
               if (!isAuthenticated) {
               navigate('/login')
-            }
+             }
               isInLibrary(id) ? removeGame(id) : addGame(game);
             }}
           >
