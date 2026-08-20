@@ -9,6 +9,7 @@ function RegisterPage() {
   const { register } = useAuth();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,9 +18,6 @@ function RegisterPage() {
     date_of_birth: "",
   });
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -223,7 +221,7 @@ function RegisterPage() {
                     />
                     <button
                       type="button"
-                      onClick={togglePasswordVisibility}
+                      onClick={() => setShowPassword((prev) => !prev)}
                       className="absolute top-1/2 -translate-y-1/2 right-2 hover:text-purple-bright transition-colors"
                     >
                       <ion-icon
@@ -248,7 +246,7 @@ function RegisterPage() {
                   </label>
                   <div className="relative">
                     <input
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword2 ? "text" : "password"}
                       id="password_confirmation"
                       name="password_confirmation"
                       value={formData.password_confirmation}
@@ -265,11 +263,11 @@ function RegisterPage() {
                     />
                     <button
                       type="button"
-                      onClick={togglePasswordVisibility}
+                      onClick={() => setShowPassword2((prev) => !prev)}
                       className="absolute top-1/2 -translate-y-1/2 right-2 hover:text-purple-bright transition-colors"
                     >
                       <ion-icon
-                        name={showPassword ? "eye-outline" : "eye-off-outline"}
+                        name={showPassword2 ? "eye-outline" : "eye-off-outline"}
                       ></ion-icon>
                     </button>
                   </div>

@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { useLibrary } from "../context/LibraryContext";
 import { forwardRef } from "react"
 const GameCard = forwardRef(function GameCard({ game, className }, ref) {
   const navigate = useNavigate();
+  const { isAuthenticated} = useAuth()
   const { name, id, background_image, genres, metacritic, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
   const isNew = released && new Date(released) > new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)
@@ -45,6 +47,9 @@ const GameCard = forwardRef(function GameCard({ game, className }, ref) {
           onClick={(e) => {
             e.stopPropagation();
             isInLibrary(id) ? removeGame(id) : addGame(game);
+            if (!isAuthenticated) {
+              navigate('/login')
+            }
           }}
         >
           {isInLibrary(id) ? "✓" : "+"}

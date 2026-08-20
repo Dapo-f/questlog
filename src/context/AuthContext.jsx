@@ -78,10 +78,15 @@ function AuthProvider({ children }) {
 
   async function resetPassword(email, token, password, password_confirmation) {
     try {
-      return await resetPasswordApi(email, token, password, password_confirmation)
+      return await resetPasswordApi(
+        email,
+        token,
+        password,
+        password_confirmation,
+      );
     } catch (error) {
-      console.error("Error resetting password:", error)
-       throw error
+      console.error("Error resetting password:", error);
+      throw error;
     }
   }
 
@@ -96,6 +101,14 @@ function AuthProvider({ children }) {
       console.error("Error logging out:", error);
       throw error;
     }
+  }
+
+  function updateUser(updatedFields) {
+    setUser((prev) => {
+      const newUser = { ...prev, ...updatedFields };
+      localStorage.setItem("questlog-user", JSON.stringify(newUser));
+      return newUser;
+    });
   }
 
   const isAuthenticated = !!token;
@@ -113,6 +126,7 @@ function AuthProvider({ children }) {
         resendCode,
         forgotPassword,
         resetPassword,
+        updateUser,
       }}
     >
       {children}

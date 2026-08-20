@@ -1,21 +1,43 @@
 import { useLibrary } from "../context/LibraryContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LibraryCard from "../components/LibraryCard";
+import { fetchGameDetail } from "../services/rawgApi";
 function LibraryPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
   const [search, setSearch] = useState("");
   const { library } = useLibrary();
-  const filteredGames = library
+  const [enrichedLibrary, setEnrichedLibrary] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function enrichLibrary() {
+      try {
+        const enriched = await Promise.all(
+          library.map(async (entry) => {
+            const gameDetail = await fetchGameDetail(entry.rawg_id);
+            return { ...entry, ...gameDetail };
+          }),
+        );
+        setEnrichedLibrary(enriched);
+      } catch (error) {
+        console.error("Error enriching library:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    enrichLibrary();
+  }, [library]);
+  const filteredGames = enrichedLibrary
     .filter((game) => activeTab === "all" || game.status === activeTab)
     .filter((game) => game.name.toLowerCase().includes(search.toLowerCase()));
   const stats = {
-    all: library.length,
-    playing: library.filter((g) => g.status === "playing").length,
-    completed: library.filter((g) => g.status === "completed").length,
-    wishlist: library.filter((g) => g.status === "wishlist").length,
-    dropped: library.filter((g) => g.status === "dropped").length,
+    all: enrichedLibrary.length,
+    playing: enrichedLibrary.filter((g) => g.status === "playing").length,
+    completed: enrichedLibrary.filter((g) => g.status === "completed").length,
+    wishlist: enrichedLibrary.filter((g) => g.status === "wishlist").length,
+    dropped: enrichedLibrary.filter((g) => g.status === "dropped").length,
   };
   const tabs = [
     { key: "all", label: "All Games", icon: "🎮" },
@@ -27,6 +49,14 @@ function LibraryPage() {
   const style = {
     background: "linear-gradient(135deg, #7C3AED, #9D5FF0)",
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-muted">
+        Loading your library...
+      </div>
+    );
+  }
   return (
     <>
       <div className="page-header pt-8 px-6 md:pt-12 md:px-14 pb-9  relative overflow-hidden">

@@ -1,37 +1,73 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "./AuthContext";
+import {
+  getMyLibrary,
+  addToLibrary,
+  removeFromLibrary,
+  updateLibraryEntry,
+} from "../services/questlogApi";
 const LibraryContext = createContext();
 
 function LibraryProvider({ children }) {
+  const { isAuthenticated } = useAuth();
   const [toast, setToast] = useState({ message: "", visible: false });
-  const [library, setLibrary] = useState(() => {
-    const saved = localStorage.getItem("questlog-library");
-    if (saved) return JSON.parse(saved);
-    return [];
-  });
+  const [library, setLibrary] = useState([]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setLibrary([]);
+      return;
+    }
+
+    getMyLibrary()
+      .then((data) => {
+        setLibrary(data);
+      })
+      .catch((err) => {
+        console.error("Error fetching user library:", err);
+      });
+  }, [isAuthenticated]);
 
   const showToast = (message) => {
     setToast({ message, visible: true });
   };
   function addGame(game) {
-    const newGame = { ...game, status: "wishlist" };
-    setLibrary((l) => [...l, newGame]);
-    showToast(`${game.name} added to library!`);
+    addToLibrary(game.id, "wishlist")
+      .then((newEntry) => {
+        setLibrary((l) => [...l, newEntry]);
+        showToast(`${game.name} added to library!`);
+      })
+      .catch((err) => {
+        console.error("Error adding game:", err);
+        showToast("Failed to add game");
+      });
   }
 
-  function removeGame(id) {
-    setLibrary((l) => l.filter((game) => game.id !== id));
-    showToast("Removed from library");
+  function removeGame(rawgId) {
+    removeFromLibrary(rawgId)
+      .then(() => {
+        setLibrary((l) => l.filter((entry) => entry.rawg_id !== rawgId));
+        showToast("Removed from library");
+      })
+      .catch((err) => {
+        console.error("Error removing game:", err);
+        showToast("Failed to remove game");
+      });
   }
 
-  function updateStatus(id, status) {
-    setLibrary((l) =>
-      l.map((game) => (game.id === id ? { ...game, status } : game)),
-    );
+  function updateStatus(rawgId, status) {
+    updateLibraryEntry(rawgId, {status})
+     .then((updatedEntry) => {
+      setLibrary((l) =>
+        l.map((entry) => (entry.rawg_id === rawgId ? updatedEntry : entry)),
+      );
+      showToast("Game updated");
+    }).catch((err) => {
+        console.error("Error updating game:", err);
+        showToast("Failed to update game");
+      });
   }
 
-  useEffect(() => {
-    localStorage.setItem("questlog-library", JSON.stringify(library));
-  }, [library]);
 
   useEffect(() => {
     if (!toast.visible) return;
@@ -42,12 +78,20 @@ function LibraryProvider({ children }) {
     return () => clearTimeout(timer);
   }, [toast.visible]);
 
-  function isInLibrary(id) {
-    return library.some((game) => game.id === id);
+  function isInLibrary(rawgId) {
+    return library.some((entry) => entry.rawg_id === rawgId);
   }
   return (
     <LibraryContext.Provider
-      value={{ library, toast, showToast, addGame, removeGame, updateStatus, isInLibrary }}
+      value={{
+        library,
+        toast,
+        showToast,
+        addGame,
+        removeGame,
+        updateStatus,
+        isInLibrary,
+      }}
     >
       {children}
     </LibraryContext.Provider>
