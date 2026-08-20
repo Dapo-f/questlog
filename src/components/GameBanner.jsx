@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../context/LibraryContext";
+import { useAuth } from "../context/AuthContext";
 
 function GameBanner({ game, onWatchTrailer }) {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const { name, id, background_image, genres, platforms, released } = game;
   const { addGame, removeGame, isInLibrary } = useLibrary();
   const releaseDate =
@@ -58,6 +60,9 @@ function GameBanner({ game, onWatchTrailer }) {
             className="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-2.5 rounded-xl border border-border transition-colors"
             onClick={(e) => {
               e.stopPropagation();
+              if (!isAuthenticated) {
+              navigate('/login')
+            }
               isInLibrary(id) ? removeGame(id) : addGame(game);
             }}
           >

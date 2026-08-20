@@ -89,7 +89,7 @@ function CommunityPage() {
               setSearch(e.target.value);
               setLoading(true);
             }}
-            className="bg-surface2 border border-border rounded-xl px-4 py-3 text-sm text-white placeholder-muted outline-none w-full focus:border-purple transition-all bg-zinc-950/40"
+            className="bg-surface2 border border-border rounded-xl px-4 py-3 text-sm text-white placeholder-muted outline-none w-full focus:border-purple transition-all"
             type="text"
             placeholder="Type a username..."
           />

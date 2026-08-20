@@ -372,7 +372,7 @@ function GameDetailPage() {
                         <p className="text-muted text-xs mt-0.5">
                           {new Date(review.created_at).toLocaleDateString()}
                         </p>
-                        <p className="text-text text-sm mt-2 leading-relaxed break-words">
+                        <p className="text-text text-sm mt-2 leading-relaxed wrap-break">
                           {review.body}
                         </p>
                       </div>
@@ -475,7 +475,7 @@ function GameDetailPage() {
                 <span className="text-xs text-muted uppercase tracking-wider font-semibold shrink-0">
                   {label}
                 </span>
-                <span className="text-sm text-white font-medium text-right break-words">
+                <span className="text-sm text-white font-medium text-right wrap-break">
                   {value || "N/A"}
                 </span>
               </div>

@@ -46,10 +46,10 @@ const GameCard = forwardRef(function GameCard({ game, className }, ref) {
           className="absolute top-2 right-2 w-8 h-8 rounded-lg bg-purple hover:bg-purple/80 transition flex items-center justify-center text-sm"
           onClick={(e) => {
             e.stopPropagation();
-            isInLibrary(id) ? removeGame(id) : addGame(game);
             if (!isAuthenticated) {
               navigate('/login')
             }
+            isInLibrary(id) ? removeGame(id) : addGame(game);
           }}
         >
           {isInLibrary(id) ? "✓" : "+"}

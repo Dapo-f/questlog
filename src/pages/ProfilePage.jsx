@@ -172,14 +172,14 @@ function ProfilePage() {
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple/10 blur-[100px] pointer-events-none rounded-full" />
 
         {/* Futuristic Top Trim Line */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-line" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-line" />
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
           {/* Avatar & Core Identity */}
           <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             <div className="relative group">
               {/* Animated Ring Accent */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple via-purple-mid to-purple-bright rounded-full blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+              <div className="absolute -inset-1 bg-linear-to-r from-purple via-purple-mid to-purple-bright rounded-full blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
 
               <div className="relative flex items-center justify-center h-28 w-28 rounded-full bg-surface border-2 border-border text-purple-bright font-orbitron text-fluid-lg font-bold uppercase overflow-hidden shadow-inner">
                 {profile?.profile_picture ? (
