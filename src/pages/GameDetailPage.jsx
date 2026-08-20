@@ -7,11 +7,11 @@ import {
   fetchGameScreenshots,
   fetchYouTubeTrailer,
 } from "../services/rawgApi";
-import {
-  getGameReviews,
-  createReview,
-  getProfilePictureUrl,
-} from "../services/questlogApi";
+// import {
+//   getGameReviews,
+//   createReview,
+//   getProfilePictureUrl,
+// } from "../services/questlogApi";
 import { useAuth } from "../context/AuthContext";
 import { useLibrary } from "../context/LibraryContext";
 import ReviewCard from "../components/ReviewCard";
@@ -36,14 +36,14 @@ function GameDetailPage() {
   const [expanded, setExpanded] = useState(false);
   const trailerRef = useRef(null);
   const { id } = useParams();
-  const { user: currentUser, isAuthenticated } = useAuth();
-  const { showToast } = useLibrary();
-  const [reviews, setReviews] = useState([]);
-  const [reviewRating, setReviewRating] = useState(5);
-  const [reviewBody, setReviewBody] = useState("");
-  const [submittingReview, setSubmittingReview] = useState(false);
+  // const { user: currentUser, isAuthenticated } = useAuth();
+  // const { showToast } = useLibrary();
+  // const [reviews, setReviews] = useState([]);
+  // const [reviewRating, setReviewRating] = useState(5);
+  // const [reviewBody, setReviewBody] = useState("");
+  // const [submittingReview, setSubmittingReview] = useState(false);
 
-  const myReview = reviews.find((r) => r.user_id === currentUser?.id);
+  // const myReview = reviews.find((r) => r.user_id === currentUser?.id);
   const storeIcons = {
     Steam: Steam,
     "PlayStation Store": Playstation,
@@ -79,29 +79,29 @@ function GameDetailPage() {
     loadData();
   }, [id]);
 
-  function handleSubmitReview(e) {
-    // prevent default, call createReview(id, reviewRating, reviewBody),
-    // on success add the new review to the reviews array, clear the form, handle loading/error state
-    e.preventDefault();
-    if (!isAuthenticated) {
-      navigate("/login");
-      return;
-    }
-    setSubmittingReview(true);
-    createReview(id, reviewRating, reviewBody)
-      .then((newReview) => {
-        setReviews((prevReviews) => [...prevReviews, newReview]);
-        setReviewRating(5);
-        setReviewBody("");
-      })
-      .catch((err) => {
-        console.error("Error submitting review:", err);
-        showToast("Failed to submit review");
-      })
-      .finally(() => {
-        setSubmittingReview(false);
-      });
-  }
+  // function handleSubmitReview(e) {
+  //   // prevent default, call createReview(id, reviewRating, reviewBody),
+  //   // on success add the new review to the reviews array, clear the form, handle loading/error state
+  //   e.preventDefault();
+  //   if (!isAuthenticated) {
+  //     navigate("/login");
+  //     return;
+  //   }
+  //   setSubmittingReview(true);
+  //   createReview(id, reviewRating, reviewBody)
+  //     .then((newReview) => {
+  //       setReviews((prevReviews) => [...prevReviews, newReview]);
+  //       setReviewRating(5);
+  //       setReviewBody("");
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error submitting review:", err);
+  //       showToast("Failed to submit review");
+  //     })
+  //     .finally(() => {
+  //       setSubmittingReview(false);
+  //     });
+  // }
 
   if (loading)
     return (
@@ -303,7 +303,7 @@ function GameDetailPage() {
             )}
           </section>
 
-          <section className="reviews mt-8">
+          {/* <section className="reviews mt-8">
             <div className="title flex items-center gap-2">
               <div
                 className="w-1 h-5 rounded-sm"
@@ -429,7 +429,7 @@ function GameDetailPage() {
                 </button>
               </form>
             )}
-          </section>
+          </section> */}
         </div>
 
         {/* ASIDE */}
