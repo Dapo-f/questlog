@@ -7,8 +7,10 @@ import GameCollage from "../components/GameCollage";
 function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [rememberMe, setRememberMe] = useState(true);
   const { showToast } = useLibrary();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     identifier: "",
@@ -22,7 +24,8 @@ function LoginPage() {
   function handleSubmit(e) {
     e.preventDefault();
     const { identifier, password } = formData;
-    login(identifier, password)
+    setLoading(true);
+    login(identifier, password, rememberMe)
       .then(() => {
         showToast("Login successful");
         navigate("/library");
@@ -35,6 +38,9 @@ function LoginPage() {
             general: err.response?.data?.message || "Login failed",
           });
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
   return (
@@ -123,6 +129,11 @@ function LoginPage() {
             </div>
 
             <div className="bg-surface border border-border rounded-2xl p-6 sm:p-8">
+              {errors.general && (
+                <p className="text-red-400 text-sm text-center">
+                  {errors.general}
+                </p>
+              )}
               <form className="space-y-5 w-full" onSubmit={handleSubmit}>
                 {/* Email or Username */}
                 <div>
@@ -190,18 +201,14 @@ function LoginPage() {
                   )}
                 </div>
 
-                {errors.general && (
-                  <p className="text-red-400 text-sm text-center">
-                    {errors.general}
-                  </p>
-                )}
-
                 {/* <!-- Utilities: Remember Me & Forgot Password --> */}
                 <div className="flex items-center justify-between">
                   <label className="flex items-center group has-[input:checked]:text-text cursor-pointer">
                     <input
                       id="rme"
                       name="rme"
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      checked={rememberMe}
                       type="checkbox"
                       className="sr-only"
                     />
@@ -233,7 +240,8 @@ function LoginPage() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-2.5 px-3.5 text-sm rounded-lg font-semibold cursor-pointer tracking-wide text-white bg-purple hover:bg-purple-mid transition-colors"
+                  disabled={loading}
+                  className={`w-full py-2.5 px-3.5 text-sm rounded-lg font-semibold cursor-pointer tracking-wide text-white bg-purple hover:bg-purple-mid transition-colors ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   Login
                 </button>

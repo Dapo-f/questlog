@@ -7,6 +7,8 @@ function VerifyEmailPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [resendMessage, setResendMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
   const { verifyEmail, resendCode } = useAuth();
   const { showToast } = useLibrary();
   const [errors, setErrors] = useState({});
@@ -69,11 +71,12 @@ function VerifyEmailPage() {
   function handleSubmit(e) {
     e.preventDefault();
     const finalCode = code.join("");
+    setLoading(true);
     verifyEmail(email, finalCode)
       .then(() => {
         sessionStorage.removeItem("pending-verification-email");
         showToast("Email verified successfully!");
-        navigate("/library");
+        navigate("/discover");
       })
       .catch((err) => {
         if (err.response?.data?.errors) {
@@ -83,12 +86,26 @@ function VerifyEmailPage() {
             general: err.response?.data?.message || "Verification failed",
           });
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
   function handleResend() {
     resendCode(email)
-      .then(() => setResendMessage("A new code has been sent to your email."))
+      .then(() => {
+        setResendMessage("A new code has been sent to your email.");
+        setResendCooldown(30);
+      })
       .catch(() =>
         setResendMessage("Failed to resend code. Please try again."),
       );
@@ -98,22 +115,6 @@ function VerifyEmailPage() {
     <main className="min-h-screen bg-bg text-text font-outfit flex flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
-          <div className="flex items-center gap-2 mb-6">
-            <svg width="32" height="32" viewBox="0 0 44 44" fill="none">
-              <path
-                d="M22 3L6 10V22C6 31 13 38.5 22 41C31 38.5 38 31 38 22V10L22 3Z"
-                stroke="#C084FC"
-                strokeWidth="1.5"
-                fill="rgba(124,58,237,0.1)"
-              />
-              <circle cx="22" cy="21" r="7" stroke="#C084FC" strokeWidth="2" fill="none" />
-              <line x1="27" y1="26" x2="31" y2="30" stroke="#C084FC" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-            <span className="logo-text font-orbitron font-bold text-[18px] text-white">
-              Quest<span className="text-purple-bright">Log</span>
-            </span>
-          </div>
-
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-purple/10 border border-purple/30 mb-4">
             <svg
               className="h-6 w-6 text-purple-bright"
@@ -140,7 +141,9 @@ function VerifyEmailPage() {
         </div>
 
         {errors.general && (
-          <p className="text-red-400 text-sm text-center mb-4">{errors.general}</p>
+          <p className="text-red-400 text-sm text-center mb-4">
+            {errors.general}
+          </p>
         )}
 
         <div className="bg-surface border border-border rounded-2xl p-6 sm:p-8">
@@ -170,7 +173,8 @@ function VerifyEmailPage() {
 
             <button
               type="submit"
-              className="w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-white bg-purple hover:bg-purple-mid transition-colors"
+              disabled={loading}
+              className={`w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-white bg-purple hover:bg-purple-mid transition-colors ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               Verify Account
             </button>
@@ -180,10 +184,13 @@ function VerifyEmailPage() {
             <p className="text-muted">Didn't receive the code?</p>
             <button
               type="button"
-              className="font-medium text-purple-mid hover:text-purple-bright transition-colors"
+              disabled={resendCooldown > 0}
+              className={`font-medium text-purple-mid hover:text-purple-bright transition-colors ${resendCooldown > 0 ? "opacity-50 cursor-not-allowed" : ""}`}
               onClick={handleResend}
             >
-              Resend code
+              {resendCooldown > 0
+                ? `Resend in ${resendCooldown}s`
+                : "Resend code"}
             </button>
             {resendMessage && (
               <p className="text-sm text-muted">{resendMessage}</p>

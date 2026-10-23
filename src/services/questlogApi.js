@@ -1,14 +1,15 @@
 import axios from "axios";
+const API_KEY = import.meta.env.VITE_BACKEND_API_URL
 
 // step 1: Create an Axios instance using axios.create() with a baseURL
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: API_KEY,
 });
 
 api.interceptors.request.use(
   (config) => {
     // 1. Modify your request configuration here (e.g., adding headers)
-    const token = localStorage.getItem("questlog-token");
+    const token = localStorage.getItem('questlog-token') || sessionStorage.getItem('questlog-token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -156,9 +157,9 @@ export async function createReview(rawg_id, rating, body) {
   }
 }
 
-export async function searchUsers(query = "") {
+export async function searchUsers(query = "", page = 1) {
   try {
-    const response = await api.get("/users/search", { params: { q: query } });
+    const response = await api.get("/users/search", { params: { q: query, page } });
     return response.data;
   } catch (error) {
     console.error("Error searching users:", error);
@@ -211,7 +212,7 @@ export async function getRecentReviews() {
 
 export function getProfilePictureUrl(path) {
   if (!path) return null;
-  return `http://127.0.0.1:8000/storage/${path}`;
+  return `${API_KEY.replace(/\/api\/?$/, "")}/storage/${path}`;
 }
 
 export async function updateUsername(username) {
@@ -276,6 +277,15 @@ export async function verifyEmail(email, code) {
 export async function resendCode(email) {
   try {
     const response = await api.post("/resend-code", { email });
+    return response.data;
+  } catch (error) {
+    console.error("Error resending code:", error);
+    throw error;
+  }
+}
+export async function forgotPasswordResendCode(email) {
+  try {
+    const response = await api.post("/forgot-password-resend-code", { email });
     return response.data;
   } catch (error) {
     console.error("Error resending code:", error);

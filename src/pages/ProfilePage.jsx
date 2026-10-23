@@ -265,7 +265,7 @@ function ProfilePage() {
                   onClick={handleFollow}
                   className="w-full sm:w-auto bg-purple text-white px-6 py-2 rounded-lg font-outfit font-semibold text-xs tracking-wider uppercase hover:bg-purple-mid transition-all duration-300 shadow-[0_0_15px_rgba(124,58,237,0.4)]"
                 >
-                  Follow Player
+                  Follow
                 </button>
               )}
             </div>

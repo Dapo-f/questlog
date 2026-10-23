@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Swords, Search, Clapperboard, ShoppingCart, LibraryBig, Star, Gamepad2 } from "lucide-react";
 import GameCollage from "../components/GameCollage";
 import Kratos from "../assets/Kratos.jpg";
 import Neir from "../assets/2B.jpeg";
@@ -57,10 +58,11 @@ function LandingPage() {
           </p>
           <div className="hero-actions flex gap-3 justify-center flex-wrap animate-[fadeUp_0.9s_0.4s_ease_both]">
             <button
-              className="btn-primary bg-purple hover:bg-purple-mid text-white font-bold px-8 py-3.5 rounded-xl transition-colors shadow-lg duration-300 ease-in-out cursor-pointer"
+              className="btn-primary bg-purple hover:bg-purple-mid text-white font-bold px-8 py-3.5 rounded-xl transition-colors shadow-lg duration-300 ease-in-out cursor-pointer flex items-center justify-center gap-2"
               onClick={() => navigate("/discover")}
             >
-              ⚔️ &nbsp;Explore Games
+              <Swords size={18} />
+              Explore Games
             </button>
             <button
               className="btn-secondary bg-white/7 hover:bg-white/10 text-white border border-border px-7 py-3.5 rounded-xl transition-colors font-semibold cursor-pointer"
@@ -104,7 +106,7 @@ function LandingPage() {
               "linear-gradient(to right, transparent, #C084FC, transparent)",
           }}
         ></div>
-       <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r border-border">
+        <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r border-border">
           <div
             className="stat-number text-fluid-xl font-orbitron font-black mb-2 leading-none"
             style={gradientText}
@@ -115,7 +117,7 @@ function LandingPage() {
             Games in Database
           </div>
         </div>
-       <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r-0 md:border-r border-border">
+        <div className="stat-item flex-1 min-w-40 text-center py-4 md:py-0 px-6 md:px-10 border-r-0 md:border-r border-border">
           <div
             className="stat-number text-fluid-xl font-orbitron font-black mb-2 leading-none"
             style={gradientText}
@@ -178,7 +180,7 @@ function LandingPage() {
               }}
             ></div>
             <div className="feature-icon text-3xl mb-6 w-13 h-13 rounded-xl flex items-center justify-center bg-purple/10 border border-purple/20">
-              🔍
+              <Search size={24} />
             </div>
             <div className="feature-title font-orbitron font-bold text-base text-white mb-3">
               Smart Search
@@ -201,7 +203,7 @@ function LandingPage() {
               }}
             ></div>
             <div className="feature-icon text-3xl mb-6 w-13 h-13 rounded-xl flex items-center justify-center bg-purple/10 border border-purple/20">
-              🎬
+              <Clapperboard size={24} />
             </div>
             <div className="feature-title font-orbitron font-bold text-base text-white mb-3">
               Trailers Built In
@@ -220,7 +222,7 @@ function LandingPage() {
               }}
             ></div>
             <div className="feature-icon text-3xl mb-6 w-13 h-13 rounded-xl flex items-center justify-center bg-purple/10 border border-purple/20">
-              🛒
+              <ShoppingCart size={24} />
             </div>
             <div className="feature-title font-orbitron font-bold text-base text-white mb-3">
               Buy Anywhere
@@ -239,7 +241,7 @@ function LandingPage() {
               }}
             ></div>
             <div className="feature-icon text-3xl mb-6 w-13 h-13 rounded-xl flex items-center justify-center bg-purple/10 border border-purple/20">
-              📚
+              <LibraryBig size={24} />
             </div>
             <div className="feature-title font-orbitron font-bold text-base text-white mb-3">
               Your Library
@@ -258,7 +260,7 @@ function LandingPage() {
               }}
             ></div>
             <div className="feature-icon text-3xl mb-6 w-13 h-13 rounded-xl flex items-center justify-center bg-purple/10 border border-purple/20">
-              ⭐
+              <Star size={24} />
             </div>
             <div className="feature-title font-orbitron font-bold text-base text-white mb-3">
               Metacritic Scores
@@ -277,7 +279,7 @@ function LandingPage() {
               }}
             ></div>
             <div className="feature-icon text-3xl mb-6 w-13 h-13 rounded-xl flex items-center justify-center bg-purple/10 border border-purple/20">
-              🎮
+              <Gamepad2 size={24} />
             </div>
             <div className="feature-title font-orbitron font-bold text-base text-white mb-3">
               Platform Filters
@@ -477,10 +479,11 @@ function LandingPage() {
           Thousands of games are waiting. Your library starts with one click.
         </p>
         <button
-          className="btn-primary bg-purple hover:bg-purple-mid text-white font-bold px-8 py-3.5 rounded-xl transition-colors shadow-lg duration-300 ease-in-out cursor-pointer"
+          className="btn-primary bg-purple hover:bg-purple-mid text-white font-bold px-8 py-3.5 rounded-xl transition-colors shadow-lg duration-300 ease-in-out cursor-pointer flex items-center justify-center gap-2 mx-auto"
           onClick={() => navigate("/discover")}
         >
-          ⚔️ &nbsp;Explore Games
+          <Swords size={18} />
+          Explore Games
         </button>
       </section>
       <footer className="bg-surface border-t border-border pt-15 px-12 pb-9">

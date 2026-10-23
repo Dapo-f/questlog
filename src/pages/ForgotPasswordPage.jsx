@@ -8,11 +8,13 @@ function ForgotPasswordPage() {
   const navigate = useNavigate();
   const { forgotPassword } = useAuth();
   const { showToast } = useLibrary();
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     forgotPassword(email)
       .then(() => {
         showToast("A reset code has been sent to your email.");
@@ -27,6 +29,9 @@ function ForgotPasswordPage() {
             general: err.response?.data?.message || "Forgot Password Failed",
           });
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
   return (
@@ -101,7 +106,8 @@ function ForgotPasswordPage() {
               {/* <!-- Submit Button --> */}
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-purple hover:bg-purple-mid transition-colors duration-150 ease-in-out"
+                disabled={loading}
+                className={`w-full py-2.5 px-3.5 text-sm rounded-lg font-semibold cursor-pointer tracking-wide text-white bg-purple hover:bg-purple-mid transition-colors ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 Reset password
               </button>

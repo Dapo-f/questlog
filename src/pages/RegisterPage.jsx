@@ -8,6 +8,7 @@ function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,8 +22,10 @@ function RegisterPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     if (formData.password !== formData.password_confirmation) {
       setErrors({ password_confirmation: ["Passwords do not match"] });
+      setLoading(false);
       return;
     }
     const { username, email, password, password_confirmation, date_of_birth } =
@@ -48,6 +51,9 @@ function RegisterPage() {
             general: err.response?.data?.message || "Registration failed",
           });
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -229,6 +235,7 @@ function RegisterPage() {
                       ></ion-icon>
                     </button>
                   </div>
+                  <span className="text-[12px] text-muted">At least 8-20 characters</span>
                   {errors.password && (
                     <p className="text-red-400 text-sm mt-1">
                       {errors.password[0]}
@@ -346,7 +353,8 @@ function RegisterPage() {
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 px-3.5 text-sm rounded-lg font-semibold cursor-pointer tracking-wide text-white bg-purple hover:bg-purple-mid transition-colors"
+                  disabled={loading}
+                  className={`w-full py-2.5 px-3.5 text-sm rounded-lg font-semibold cursor-pointer tracking-wide text-white bg-purple hover:bg-purple-mid transition-colors ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   Create an account
                 </button>

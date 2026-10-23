@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../context/LibraryContext";
 import { useAuth } from "../context/AuthContext";
+import { Clapperboard } from "lucide-react";
 
 function GameBanner({ game, onWatchTrailer }) {
   const navigate = useNavigate();
@@ -51,10 +52,11 @@ function GameBanner({ game, onWatchTrailer }) {
         </div>
         <div className="buttons flex gap-3">
           <button
-            className="bg-purple hover:bg-purple-mid text-white font-bold px-6 py-2.5 rounded-xl transition-colors"
+            className="bg-purple hover:bg-purple-mid text-white font-bold px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2"
             onClick={onWatchTrailer}
           >
-            🎬 Watch Trailer
+            <Clapperboard size={18}/>
+             Watch Trailer
           </button>
           <button
             className="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-2.5 rounded-xl border border-border transition-colors"

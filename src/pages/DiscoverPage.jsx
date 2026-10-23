@@ -14,7 +14,7 @@ function DiscoverPage() {
   const currentYear = new Date().getFullYear();
   const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const loadData = async () => {
       const [t, tr, nr] = await Promise.all([

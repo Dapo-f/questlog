@@ -6,6 +6,7 @@ import {
   logout as logoutApi,
   verifyEmail as verifyEmailApi,
   resendCode as resendCodeApi,
+  forgotPasswordResendCode as forgotPasswordResendCodeApi,
   forgotPassword as forgotPasswordApi,
   resetPassword as resetPasswordApi,
 } from "../services/questlogApi";
@@ -13,12 +14,17 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("questlog-user");
+    const saved =
+      localStorage.getItem("questlog-user") ||
+      sessionStorage.getItem("questlog-user");
     if (saved) return JSON.parse(saved);
     return null;
   });
   const [token, setToken] = useState(() => {
-    return localStorage.getItem("questlog-token") || null;
+    return (
+      localStorage.getItem("questlog-token") ||
+      sessionStorage.getItem("questlog-token")
+    );
   });
 
   async function register(userData) {
@@ -30,19 +36,22 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function login(identifier, password) {
-    try {
-      const data = await loginApi(identifier, password);
-      setToken(data.token);
-      localStorage.setItem("questlog-token", data.token);
-      const userData = await getCurrentUser();
-      setUser(userData);
-      localStorage.setItem("questlog-user", JSON.stringify(userData));
-    } catch (error) {
-      console.error("Error logging in:", error);
-      throw error;
-    }
+  async function login(identifier, password, rememberMe = true) {
+  try {
+    const data = await loginApi(identifier, password);
+    const storage = rememberMe ? localStorage : sessionStorage;
+
+    storage.setItem("questlog-token", data.token);
+    setToken(data.token);
+
+    const userData = await getCurrentUser();
+    storage.setItem("questlog-user", JSON.stringify(userData));
+    setUser(userData);
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error;
   }
+}
 
   async function verifyEmail(email, code) {
     try {
@@ -61,6 +70,14 @@ function AuthProvider({ children }) {
   async function resendCode(email) {
     try {
       return await resendCodeApi(email);
+    } catch (error) {
+      console.error("Error resending code:", error);
+      throw error;
+    }
+  }
+  async function forgotPasswordResendCode(email) {
+    try {
+      return await forgotPasswordResendCodeApi(email);
     } catch (error) {
       console.error("Error resending code:", error);
       throw error;
@@ -90,26 +107,29 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function logout() {
-    try {
-      await logoutApi();
-      setToken(null);
-      localStorage.removeItem("questlog-token");
-      setUser(null);
-      localStorage.removeItem("questlog-user");
-    } catch (error) {
-      console.error("Error logging out:", error);
-      throw error;
-    }
+ async function logout() {
+  try {
+    await logoutApi();
+  } catch (error) {
+    console.error("Error logging out:", error);
+  } finally {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("questlog-token");
+    localStorage.removeItem("questlog-user");
+    sessionStorage.removeItem("questlog-token");
+    sessionStorage.removeItem("questlog-user");
   }
+}
 
   function updateUser(updatedFields) {
-    setUser((prev) => {
-      const newUser = { ...prev, ...updatedFields };
-      localStorage.setItem("questlog-user", JSON.stringify(newUser));
-      return newUser;
-    });
-  }
+  setUser((prev) => {
+    const newUser = { ...prev, ...updatedFields };
+    const storage = localStorage.getItem("questlog-token") ? localStorage : sessionStorage;
+    storage.setItem("questlog-user", JSON.stringify(newUser));
+    return newUser;
+  });
+}
 
   const isAuthenticated = !!token;
 
@@ -124,6 +144,7 @@ function AuthProvider({ children }) {
         isAuthenticated,
         verifyEmail,
         resendCode,
+        forgotPasswordResendCode,
         forgotPassword,
         resetPassword,
         updateUser,

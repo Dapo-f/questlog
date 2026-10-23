@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../context/LibraryContext";
+import {
+  Play,
+  LaptopMinimalCheck,
+  Star,
+  TrashOff,
+} from "lucide-react";
 
 function LibraryCard({ game }) {
   const { name, id, background_image, genres, metacritic, released } = game;
@@ -9,10 +15,10 @@ function LibraryCard({ game }) {
   const [status, setStatus] = useState({});
   const { updateStatus, removeGame } = useLibrary();
   const statuses = [
-    { key: "playing", label: "▶ Playing" },
-    { key: "completed", label: "✅ Completed" },
-    { key: "wishlist", label: "⭐ Wishlist" },
-    { key: "dropped", label: "🚫 Dropped" },
+    { key: "playing", label: "Playing" , icon: <Play size={16} /> },
+    { key: "completed", label: "Completed" , icon: <LaptopMinimalCheck size={16} /> },
+    { key: "wishlist", label: "Wishlist", icon: <Star size={16} />  },
+    { key: "dropped", label: "Dropped", icon: <TrashOff size={16} />  },
   ];
   const statusColors = {
     wishlist: "bg-orange-400/20 border border-orange-400/30 text-orange-400",
@@ -97,9 +103,9 @@ function LibraryCard({ game }) {
                   className="p-2 text-sm text-body font-medium"
                   ariaLabelledby="dropdownMenuIconButton"
                 >
-                  {statuses.map(({ key, label }) => (
+                  {statuses.map(({ key, label, icon }) => (
                     <p
-                      className={`px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors hover:bg-surface2 ${game.status === key ? statusColors[key] : "text-muted hover:text-white"}`}
+                      className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors hover:bg-surface2 ${game.status === key ? statusColors[key] : "text-muted hover:text-white"}`}
                       key={key}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -107,7 +113,7 @@ function LibraryCard({ game }) {
                         setMenuOpen(false);
                       }}
                     >
-                      {label}
+                      {icon} {label}
                     </p>
                   ))}
                   <hr className="border-border my-1" />

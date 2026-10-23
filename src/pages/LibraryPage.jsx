@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import LibraryCard from "../components/LibraryCard";
 import { fetchGameDetail } from "../services/rawgApi";
+import {
+  Gamepad2,
+  Play,
+  LaptopMinimalCheck,
+  Star,
+  TrashOff,
+} from "lucide-react";
 function LibraryPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
@@ -40,11 +47,15 @@ function LibraryPage() {
     dropped: enrichedLibrary.filter((g) => g.status === "dropped").length,
   };
   const tabs = [
-    { key: "all", label: "All Games", icon: "🎮" },
-    { key: "playing", label: "Playing", icon: "▶️" },
-    { key: "completed", label: "Completed", icon: "✅" },
-    { key: "wishlist", label: "Wishlist", icon: "⭐" },
-    { key: "dropped", label: "Dropped", icon: "🚫" },
+    { key: "all", label: "All Games", icon: <Gamepad2 size={24} /> },
+    { key: "playing", label: "Playing", icon: <Play size={24} /> },
+    {
+      key: "completed",
+      label: "Completed",
+      icon: <LaptopMinimalCheck size={24} />,
+    },
+    { key: "wishlist", label: "Wishlist", icon: <Star size={24} /> },
+    { key: "dropped", label: "Dropped", icon: <TrashOff size={24} /> },
   ];
   const style = {
     background: "linear-gradient(135deg, #7C3AED, #9D5FF0)",
@@ -70,15 +81,9 @@ function LibraryPage() {
         ></div>
         <div className="header-top flex items-end justify-between flex-wrap gap-5 mb-8">
           <div className="header-left">
-            <div className="page-eyebrow text-[11px] tracking-[0.25em] uppercase text-purple-bright font-bold mb-2.5">
-              📚 Personal Collection
-            </div>
             <h1 className="page-title font-orbitron text-4xl font-black text-white">
               My <span className="text-purple-bright">Library</span>
             </h1>
-            <p className="page-sub text-sm text-muted mt-1.5">
-              Your saved games, all in one place.
-            </p>
           </div>
           <div className="header-actions">
             <button
@@ -93,18 +98,20 @@ function LibraryPage() {
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {tabs.map(({ key, label, icon }) => (
             <div
               key={key}
-              className="bg-surface border border-border rounded-2xl p-6 flex-1 relative overflow-hidden hover:border-purple/30 transition-colors"
+              className="bg-surface border border-border rounded-2xl p-6 flex-1 relative overflow-hidden hover:border-purple/30 transition-colors flex flex-col items-center text-center"
             >
-              <div className="text-2xl mb-1">{icon}</div>
-              <div className="font-orbitron font-black text-3xl text-purple-bright mb-1">
+              <div className="font-orbitron font-black text-3xl text-purple-bright mb-2">
                 {stats[key]}
               </div>
-              <div className="text-xs text-muted uppercase tracking-widest font-semibold">
-                {label}
+              <div className="flex items-center gap-1.5 text-muted">
+                <span className="text-base">{icon}</span>
+                <span className="text-xs uppercase tracking-widest font-semibold">
+                  {label}
+                </span>
               </div>
             </div>
           ))}

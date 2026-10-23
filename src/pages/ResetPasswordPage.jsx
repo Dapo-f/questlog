@@ -6,8 +6,13 @@ import { useLibrary } from "../context/LibraryContext";
 function ResetPasswordPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { resetPassword } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const { resetPassword, forgotPasswordResendCode } = useAuth();
+  const [resendMessage, setResendMessage] = useState("");
+  const [resendCooldown, setResendCooldown] = useState(0);
   const { showToast } = useLibrary();
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [code, setCode] = useState("");
   const [formData, setFormData] = useState({
@@ -20,15 +25,15 @@ function ResetPasswordPage() {
       location.state?.email || sessionStorage.getItem("pending-reset") || null
     );
   });
-    useEffect(() => {
-      if (!email) {
-        navigate("/forgot-password", { replace: true });
-      }
-    }, [email, navigate]);
-
+  useEffect(() => {
     if (!email) {
-      return null;
+      navigate("/forgot-password", { replace: true });
     }
+  }, [email, navigate]);
+
+  if (!email) {
+    return null;
+  }
   // Handle text changes for all inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,10 +51,31 @@ function ResetPasswordPage() {
     setStep(2);
   };
 
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  function handleResend() {
+    forgotPasswordResendCode(email)
+      .then(() => {
+        setResendMessage("A new code has been sent to your email.");
+        setResendCooldown(30);
+      })
+      .catch(() =>
+        setResendMessage("Failed to resend code. Please try again."),
+      );
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     if (formData.password !== formData.password_confirmation) {
       setErrors({ password_confirmation: ["Passwords do not match"] });
+      setLoading(false);
       return;
     }
     resetPassword(
@@ -64,13 +90,26 @@ function ResetPasswordPage() {
         navigate("/login");
       })
       .catch((err) => {
-        if (err.response?.data?.errors) {
+        const message = err.response?.data?.message || "";
+        const isTokenError =
+          err.response?.status === 400 ||
+          message.toLowerCase().includes("token") ||
+          message.toLowerCase().includes("expired");
+
+        if (isTokenError) {
+          setStep(1);
+          setCode("");
+          setErrors({
+            token: [message || "Code is invalid or expired. Please try again."],
+          });
+        } else if (err.response?.data?.errors) {
           setErrors(err.response.data.errors);
         } else {
-          setErrors({
-            general: err.response?.data?.message || "Reset password failed",
-          });
+          setErrors({ general: message || "Reset password failed" });
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
   return (
@@ -108,50 +147,73 @@ function ResetPasswordPage() {
         <div className="bg-surface py-8 px-4 shadow sm:rounded-xl sm:px-10 border border-border">
           {/* STEP 1: TOKEN INPUT FORM */}
           {step === 1 && (
-            <form onSubmit={handleNextStep} className="space-y-6">
-              <div>
-                <label
-                  htmlFor="token"
-                  className="block text-sm font-medium text-text "
-                >
-                  Secure Token
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="token"
-                    name="token"
-                    type="text"
-                    maxLength={6}
-                    required
-                    value={code}
-                    onChange={(e) => {
-                      setCode(e.target.value);
-                    }}
-                    className="block w-full px-4 py-3 rounded-lg bg-surface2 border border-border text-text placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple focus:border-purple transition-colors duration-150 ease-in-out sm:text-sm"
-                    placeholder="Enter reset code"
-                  />
+            <div>
+              <form onSubmit={handleNextStep} className="space-y-6">
+                <div>
+                  <label
+                    htmlFor="token"
+                    className="block text-sm font-medium text-text"
+                  >
+                    Verification Code
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="token"
+                      name="token"
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={6}
+                      required
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                      className="block w-full px-4 py-3 rounded-lg bg-surface2 border border-border text-text text-center text-lg tracking-[0.5em] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple focus:border-purple transition-colors duration-150 ease-in-out"
+                      placeholder="000000"
+                    />
+                  </div>
                   {errors.token && (
-                    <p className="text-red-400 text-sm mt-1">
+                    <p className="text-red-400 text-sm mt-1.5">
                       {errors.token[0]}
                     </p>
                   )}
                 </div>
-              </div>
 
-              <div>
                 <button
                   type="submit"
                   className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-purple hover:bg-purple-mid transition-colors duration-150 ease-in-out"
                 >
                   Continue
                 </button>
+              </form>
+
+              <div className="mt-6 flex flex-col items-center gap-2 text-sm">
+                <p className="text-muted">Didn't receive the code?</p>
+                <button
+                  type="button"
+                  disabled={resendCooldown > 0}
+                  className={`font-medium text-purple-mid hover:text-purple-bright transition-colors ${
+                    resendCooldown > 0 ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  onClick={handleResend}
+                >
+                  {resendCooldown > 0
+                    ? `Resend in ${resendCooldown}s`
+                    : "Resend code"}
+                </button>
+                {resendMessage && (
+                  <p className="text-sm text-muted">{resendMessage}</p>
+                )}
               </div>
-            </form>
+            </div>
           )}
 
           {/* STEP 2: PASSWORD CREATION FORM */}
           {step === 2 && (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {errors.general && (
+                <p className="text-red-400 text-sm text-center">
+                  {errors.general}
+                </p>
+              )}
               {/* Password */}
               <div>
                 <label
@@ -160,17 +222,26 @@ function ResetPasswordPage() {
                 >
                   New Password
                 </label>
-                <div className="mt-2">
+                <div className="relative mt-2">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     value={formData.password}
                     onChange={handleInputChange}
                     className="block w-full px-4 py-3 rounded-lg bg-surface2 border border-border text-text placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple focus:border-purple transition-colors duration-150 ease-in-out sm:text-sm"
                     placeholder="••••••••"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute top-1/2 -translate-y-1/2 right-2 hover:text-purple-bright transition-colors"
+                  >
+                    <ion-icon
+                      name={showPassword ? "eye-outline" : "eye-off-outline"}
+                    ></ion-icon>
+                  </button>
                 </div>
                 {errors.password && (
                   <p className="text-red-400 text-sm mt-1">
@@ -187,17 +258,26 @@ function ResetPasswordPage() {
                 >
                   Confirm New Password
                 </label>
-                <div className="mt-2">
+                <div className="relative mt-2">
                   <input
                     id="password_confirmation"
                     name="password_confirmation"
-                    type="password"
+                    type={showPassword2 ? "text" : "password"}
                     required
                     value={formData.password_confirmation}
                     onChange={handleInputChange}
                     className="block w-full px-4 py-3 rounded-lg bg-surface2 border border-border text-text placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple focus:border-purple transition-colors duration-150 ease-in-out sm:text-sm"
                     placeholder="••••••••"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword2((prev) => !prev)}
+                    className="absolute top-1/2 -translate-y-1/2 right-2 hover:text-purple-bright transition-colors"
+                  >
+                    <ion-icon
+                      name={showPassword2 ? "eye-outline" : "eye-off-outline"}
+                    ></ion-icon>
+                  </button>
                 </div>
                 {errors.password_confirmation && (
                   <p className="text-red-400 text-sm mt-1">
@@ -217,7 +297,8 @@ function ResetPasswordPage() {
 
                 <button
                   type="submit"
-                  className="inline-flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-purple hover:bg-purple-bright focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-mid transition-colors duration-200 cursor-pointer"
+                  disabled={loading}
+                  className={`inline-flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-purple hover:bg-purple-bright focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-mid transition-colors duration-200 cursor-pointer ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   Save Password
                 </button>

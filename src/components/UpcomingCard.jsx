@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "../context/LibraryContext";
 import { useAuth } from "../context/AuthContext";
+import { CalendarDays, CalendarClock } from "lucide-react";
 
 function UpcomingCard({ game }) {
   const navigate = useNavigate();
@@ -41,7 +42,6 @@ function UpcomingCard({ game }) {
         <div className="bottom-content ">
           <p className="text-white font-semibold text-sm truncate mb-2">{name}</p>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs">📅</span>
             <span
               className={`text-xs font-bold ${
                 releaseDate === "TBA"
@@ -54,8 +54,17 @@ function UpcomingCard({ game }) {
               {releaseDate === "TBA"
                 ? "TBA"
                 : isReleasingSoon
-                  ? `🔥 ${releaseDate}`
-                  : releaseDate}
+                  ? (
+                    <div className="flex items-center gap-1">
+                     <CalendarClock size={14} className="text-orange-400"/> {releaseDate}
+                    </div>
+                  )
+                  :(
+                    <div className="flex items-center gap-1">
+                     <CalendarDays size={14} className="text-text"/> {releaseDate}
+                    </div>
+                  )
+              }
             </span>
           </div>
           <div className="flex justify-between items-center mt-2">

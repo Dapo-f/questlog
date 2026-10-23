@@ -40,9 +40,6 @@ function UpcomingPage() {
             "linear-gradient(to bottom, rgba(124,58,237,0.08), transparent)",
         }}
       >
-        <div className="page-eyebrow text-[11px] tracking-[0.25em] uppercase text-purple-bright font-bold mb-3">
-          🎮 Coming Soon
-        </div>
         {/* Page Header */}
         <div className="page-header-top flex items-end justify-between flex-wrap gap-5 mb-5">
           <h1 className="page-title font-orbitron text-[30px] font-black text-white">
