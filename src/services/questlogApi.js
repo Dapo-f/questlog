@@ -212,7 +212,9 @@ export async function getRecentReviews() {
 
 export function getProfilePictureUrl(path) {
   if (!path) return null;
-  return `${API_KEY.replace(/\/api\/?$/, "")}/storage/${path}`;
+  if (/^https?:\/\//.test(path)) return path;
+  const base = API_KEY.replace(/\/api\/?$/, "");
+  return `${base}/storage/${path.replace(/^\/?storage\//, "")}`;
 }
 
 export async function updateUsername(username) {
